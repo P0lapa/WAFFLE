@@ -1,0 +1,174 @@
+{
+  "main": {
+    "id": "117a3f759cbc772f",
+    "type": "split",
+    "children": [
+      {
+        "id": "0bef46b09e8ee37b",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "2474049d285fa06f",
+            "type": "leaf",
+            "state": {
+              "type": "canvas",
+              "state": {
+                "file": "Без названия.canvas",
+                "viewState": {
+                  "x": 0,
+                  "y": 0,
+                  "zoom": 0
+                }
+              },
+              "icon": "lucide-layout-dashboard",
+              "title": "Без названия"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "730b063d7a52e0d8",
+    "type": "split",
+    "children": [
+      {
+        "id": "a48422b6457c3a1c",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "e523a8d77028ded9",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Файловый менеджер"
+            }
+          },
+          {
+            "id": "7a046a0c88839a66",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Поиск"
+            }
+          },
+          {
+            "id": "e297e4c030e146bf",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Закладки"
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "003a8be4000b33e0",
+    "type": "split",
+    "children": [
+      {
+        "id": "8c82828c23d4dd8b",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "a57ddcd978250b15",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Без названия.canvas",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Обратные ссылки для Без названия"
+            }
+          },
+          {
+            "id": "1bb9c9da356efee5",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Без названия.canvas",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Исходящие ссылки из Без названия"
+            }
+          },
+          {
+            "id": "31659c5e0ee6cb2e",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              },
+              "icon": "lucide-tags",
+              "title": "Теги"
+            }
+          },
+          {
+            "id": "5300c6dc491bba40",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Без названия.canvas"
+              },
+              "icon": "lucide-list",
+              "title": "Структура Без названия"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Меню быстрого перехода": false,
+      "graph:Граф": false,
+      "canvas:Создать новый холст": false,
+      "daily-notes:Сегодняшняя заметка": false,
+      "templates:Вставить шаблон": false,
+      "command-palette:Открыть палитру команд": false
+    }
+  },
+  "active": "2474049d285fa06f",
+  "lastOpenFiles": [
+    "Без названия.canvas",
+    "README.md"
+  ]
+}
