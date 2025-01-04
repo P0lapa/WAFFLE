@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="pink">#EE717D</color>
+    <color name="pinkwhite">#E44A35</color><!--походу тут цвет не тот    -->
+    <color name="red">#E44A35</color>
+    <color name="brown">#532F2B</color>
+    <!--цвета плиток вафель и т.д.    -->
+    <color name="lines">#532F2B</color>
+    <color name="cells">#6B423B</color>
+    <color name="shadows">#623835</color>
+
+</resources>

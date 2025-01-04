@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+<style name="CustomButtonStyle" parent="Widget.AppCompat.Button">
+    <item name="fontFamily">@font/lapsus_pro_bold</item>
+    <item name="android:textColor">@color/red</item>
+    <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+    <item name="android:textSize">50sp</item>
+    android:strokeColor и android:strokeWidth
+</style>
+
+</resources>
