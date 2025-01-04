@@ -9,4 +9,12 @@
     android:strokeColor и android:strokeWidth
 </style>
 
+<style name="CustomButtonStyle1" parent="Widget.AppCompat.Button">
+    <item name="fontFamily">@font/blackberry_normal</item>
+    <item name="android:textColor">@color/white</item>
+    <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+    <item name="android:textSize">20sp</item>
+    android:strokeColor и android:strokeWidth
+</style>
+
 </resources>

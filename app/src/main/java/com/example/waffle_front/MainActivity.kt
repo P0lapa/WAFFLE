@@ -11,6 +11,8 @@ import android.graphics.Color
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
+import android.view.View
+import androidx.appcompat.app.AlertDialog
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,17 +20,27 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Найти кнопки по ID
+        // Кнопки основного меню
         val playButton: Button = findViewById(R.id.playButton)
         val settingsButton: Button = findViewById(R.id.settingsButton)
         val rulesButton: Button = findViewById(R.id.rulesButton)
+        val myCards: Button = findViewById(R.id.myCardsButton)
         val exitButton: Button = findViewById(R.id.exitButton)
         val infoButton: ImageButton = findViewById(R.id.infoButton)
 
+        // Затемнение фона
+        val dimBackground: View = findViewById(R.id.dimBackground)
+
+        // Элементы обработки кнопки "Играть"
+        val playOptions: View = findViewById(R.id.playOptions)
+        val createGameButton: Button = findViewById(R.id.createGameButton)
+        val joinGameButton: Button = findViewById(R.id.joinGameButton)
+
+
         // Обработчик для кнопки "Играть"
         playButton.setOnClickListener {
-            Toast.makeText(this, "Играть нажато", Toast.LENGTH_SHORT).show()
-            // TODO: Добавить логику для открытия экрана игры
+            dimBackground.visibility = View.VISIBLE
+            playOptions.visibility = View.VISIBLE
         }
 
         // Обработчик для кнопки "Настройки"
@@ -43,11 +55,20 @@ class MainActivity : AppCompatActivity() {
             // TODO: Добавить логику для открытия экрана с правилами
         }
 
+        // Обработчик для кнопки "Мои Карты"
+        infoButton.setOnClickListener {
+            Toast.makeText(this, "Мои карты нажаты", Toast.LENGTH_SHORT).show()
+            // TODO: Добавить логику для управления паками и добавленияя своих слов в паки
+        }
+
         // Обработчик для кнопки "Выход"
         exitButton.setOnClickListener {
-            Toast.makeText(this, "Выход нажат", Toast.LENGTH_SHORT).show()
-            // TODO: Реализовать завершение приложения
-            finish()
+            AlertDialog.Builder(this)
+                .setTitle("Выход")
+                .setMessage("Вы уверены, что хотите выйти?")
+                .setPositiveButton("Да") { _, _ -> finish() }
+                .setNegativeButton("Нет", null)
+                .show()
         }
 
         // Обработчик для кнопки "Info"
@@ -55,6 +76,25 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "Информация нажата", Toast.LENGTH_SHORT).show()
             // TODO: Добавить логику для показа информации или помощи
         }
+
+        infoButton.setOnClickListener {
+            Toast.makeText(this, "Информация нажата", Toast.LENGTH_SHORT).show()
+            // TODO: Добавить логику для показа информации или помощи
+        }
+
+        createGameButton.setOnClickListener {
+            // Логика для создания игры
+        }
+
+        joinGameButton.setOnClickListener {
+            // Логика для присоединения к игре
+        }
+
+        dimBackground.setOnClickListener {
+            dimBackground.visibility = View.GONE
+            playOptions.visibility = View.GONE
+        }
+
 
     }
 }

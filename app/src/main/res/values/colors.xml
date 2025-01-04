@@ -3,7 +3,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="pink">#EE717D</color>
-    <color name="pinkwhite">#E44A35</color><!--походу тут цвет не тот    -->
+    <color name="pinkwhite">#FFCEC5</color><!--походу тут цвет не тот PS: пипеткой нашёл и исправил,
+     но не точно что такой был изначально  -->
     <color name="red">#E44A35</color>
     <color name="brown">#532F2B</color>
     <!--цвета плиток вафель и т.д.    -->
