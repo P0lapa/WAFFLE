@@ -1,6 +1,7 @@
 package com.example.waffle_front
 
 import StrokeSpan
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
@@ -56,9 +57,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Обработчик для кнопки "Мои Карты"
-        infoButton.setOnClickListener {
+        myCards.setOnClickListener {
             Toast.makeText(this, "Мои карты нажаты", Toast.LENGTH_SHORT).show()
             // TODO: Добавить логику для управления паками и добавленияя своих слов в паки
+            val intent = Intent(this, CardsActivity::class.java)
+            startActivity(intent)
         }
 
         // Обработчик для кнопки "Выход"
