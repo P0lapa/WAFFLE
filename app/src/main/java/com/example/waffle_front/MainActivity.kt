@@ -14,6 +14,16 @@ import android.text.Spanned
 import android.text.style.ForegroundColorSpan
 import android.view.View
 import androidx.appcompat.app.AlertDialog
+import com.example.waffle_front.OthersActivity.GameSettings
+import com.example.waffle_front.OthersActivity.RetrofitClient
+
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.http.Body
+import retrofit2.http.POST
+import java.io.BufferedReader
+import java.io.InputStreamReader
 
 class MainActivity : AppCompatActivity() {
 
@@ -85,8 +95,48 @@ class MainActivity : AppCompatActivity() {
             // TODO: Добавить логику для показа информации или помощи
         }
 
+        fun readCardsFromFile(fileName: String): List<String> {
+            val cards = mutableListOf<String>()
+            val inputStream = assets.open(fileName)
+            val reader = BufferedReader(InputStreamReader(inputStream))
+            reader.useLines { lines ->
+                lines.forEach { line ->
+                    cards.add(line)
+                }
+            }
+            return cards
+        }
+
         createGameButton.setOnClickListener {
             // Логика для создания игры
+            val situationCards = readCardsFromFile("situation_cards.txt")
+            val roleCards = readCardsFromFile("role_cards.txt")
+            val moodCards = readCardsFromFile("mood_cards.txt")
+            val actionCards = readCardsFromFile("action_cards.txt")
+
+            val settings = GameSettings(
+                creatorLogin = "user123",
+                cardsPerPlayer = 6,
+                situationCards = situationCards,
+                roleCards = roleCards,
+                moodCards = moodCards,
+                actionCards = actionCards
+            )
+
+            val api = RetrofitClient.instance
+            api.createRoom(settings).enqueue(object : Callback<String> {
+                override fun onResponse(call: Call<String>, response: Response<String>) {
+                    if (response.isSuccessful) {
+                        Toast.makeText(this@MainActivity, "Комната создана", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this@MainActivity, "Ошибка создания комнаты", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<String>, t: Throwable) {
+                    Toast.makeText(this@MainActivity, "Ошибка: ${t.message}",Toast.LENGTH_SHORT).show()
+                }
+            })
         }
 
         joinGameButton.setOnClickListener {

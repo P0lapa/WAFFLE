@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CardsActivity"
-    android:background="@drawable/menulogo">
+    android:background="@drawable/plain_waffle_bg_vertical">
 
     <Button
         android:id="@+id/backFromMyCards"
