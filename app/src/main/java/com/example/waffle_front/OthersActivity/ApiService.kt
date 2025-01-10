@@ -6,7 +6,7 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface ApiService {
-    @POST("/api/createRoom")
+    @POST("/rooms")
     fun createRoom(@Body settings: GameSettings): Call<String>
 }
 

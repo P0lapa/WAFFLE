@@ -1,5 +1,4 @@
 package com.example.waffle_front
-
 import StrokeSpan
 import android.content.Intent
 import android.os.Bundle
@@ -13,6 +12,7 @@ import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
 import android.view.View
+import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import com.example.waffle_front.OthersActivity.GameSettings
 import com.example.waffle_front.OthersActivity.RetrofitClient
@@ -42,28 +42,42 @@ class MainActivity : AppCompatActivity() {
         // Затемнение фона
         val dimBackground: View = findViewById(R.id.dimBackground)
 
-        // Элементы обработки кнопки "Играть"
-        val playOptions: View = findViewById(R.id.playOptions)
+        //Виджеты меню
+        val createOrJoinGameLayout: View = findViewById(R.id.createOrJoinGameLayout)
+        val settingsLayout: View = findViewById(R.id.settings)
+        val infoLayout: View = findViewById(R.id.info)
+        val rulesLayout: View = findViewById(R.id.rules)
+        val createGameSettingsLayout: View = findViewById(R.id.createGameSettingsLayout)
+        val joinGameLayout: View = findViewById(R.id.joinGameLayout)
+
+        // Элементы кнопок НЕ основного меню
         val createGameButton: Button = findViewById(R.id.createGameButton)
         val joinGameButton: Button = findViewById(R.id.joinGameButton)
-
+        val createGameSettingsButton: Button = findViewById(R.id.createGameSettingsButton)
+        val findGameButton: Button = findViewById(R.id.findGameButton)
 
         // Обработчик для кнопки "Играть"
         playButton.setOnClickListener {
             dimBackground.visibility = View.VISIBLE
-            playOptions.visibility = View.VISIBLE
+            createOrJoinGameLayout.visibility = View.VISIBLE
         }
 
         // Обработчик для кнопки "Настройки"
         settingsButton.setOnClickListener {
-            Toast.makeText(this, "Настройки нажаты", Toast.LENGTH_SHORT).show()
-            // TODO: Добавить логику для открытия экрана настроек
+            dimBackground.visibility = View.VISIBLE
+            settingsLayout.visibility = View.VISIBLE
         }
 
-        // Обработчик для кнопки "Правила"
+         //Обработчик для кнопки "Правила"
         rulesButton.setOnClickListener {
-            Toast.makeText(this, "Правила нажаты", Toast.LENGTH_SHORT).show()
-            // TODO: Добавить логику для открытия экрана с правилами
+            dimBackground.visibility = View.VISIBLE
+            rulesLayout.visibility = View.VISIBLE
+        }
+
+         //Обработчик для кнопки "Info"
+        infoButton.setOnClickListener {
+            dimBackground.visibility = View.VISIBLE
+            infoLayout.visibility = View.VISIBLE
         }
 
         // Обработчик для кнопки "Мои Карты"
@@ -84,16 +98,7 @@ class MainActivity : AppCompatActivity() {
                 .show()
         }
 
-        // Обработчик для кнопки "Info"
-        infoButton.setOnClickListener {
-            Toast.makeText(this, "Информация нажата", Toast.LENGTH_SHORT).show()
-            // TODO: Добавить логику для показа информации или помощи
-        }
 
-        infoButton.setOnClickListener {
-            Toast.makeText(this, "Информация нажата", Toast.LENGTH_SHORT).show()
-            // TODO: Добавить логику для показа информации или помощи
-        }
 
         fun readCardsFromFile(fileName: String): List<String> {
             val cards = mutableListOf<String>()
@@ -107,6 +112,18 @@ class MainActivity : AppCompatActivity() {
             return cards
         }
 
+
+
+        joinGameButton.setOnClickListener {
+            dimBackground.visibility = View.VISIBLE
+            joinGameLayout.visibility=View.VISIBLE
+        }
+
+        createGameSettingsButton.setOnClickListener {
+            dimBackground.visibility = View.VISIBLE
+            createGameSettingsLayout.visibility=View.VISIBLE
+        }
+
         createGameButton.setOnClickListener {
             // Логика для создания игры
             val situationCards = readCardsFromFile("situation_cards.txt")
@@ -114,9 +131,14 @@ class MainActivity : AppCompatActivity() {
             val moodCards = readCardsFromFile("mood_cards.txt")
             val actionCards = readCardsFromFile("action_cards.txt")
 
+            val cardsInput: EditText = findViewById(R.id.cardsPerPlayerInput)
+
+            val numberOfCards = cardsInput.text.toString().toIntOrNull() ?: 0
+
+
             val settings = GameSettings(
-                creatorLogin = "user123",
-                cardsPerPlayer = 6,
+                creatorLogin = "",
+                cardsPerPlayer = numberOfCards,
                 situationCards = situationCards,
                 roleCards = roleCards,
                 moodCards = moodCards,
@@ -135,17 +157,25 @@ class MainActivity : AppCompatActivity() {
 
                 override fun onFailure(call: Call<String>, t: Throwable) {
                     Toast.makeText(this@MainActivity, "Ошибка: ${t.message}",Toast.LENGTH_SHORT).show()
+                    println("Ошибка: ${t.message}")
                 }
             })
         }
 
-        joinGameButton.setOnClickListener {
-            // Логика для присоединения к игре
+        findGameButton.setOnClickListener {
+            dimBackground.visibility = View.VISIBLE
+            joinGameLayout.visibility=View.VISIBLE
         }
+
 
         dimBackground.setOnClickListener {
             dimBackground.visibility = View.GONE
-            playOptions.visibility = View.GONE
+            createOrJoinGameLayout.visibility = View.GONE
+            settingsLayout.visibility=View.GONE
+            rulesLayout.visibility=View.GONE
+            infoLayout.visibility=View.GONE
+            createGameSettingsLayout.visibility=View.GONE
+            joinGameLayout.visibility=View.GONE
         }
 
 
