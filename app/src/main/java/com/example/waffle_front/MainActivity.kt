@@ -11,9 +11,11 @@ import android.graphics.Color
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
+import com.example.waffle_front.OthersActivity.CreateRoomResponse
 import com.example.waffle_front.OthersActivity.GameSettings
 import com.example.waffle_front.OthersActivity.RetrofitClient
 
@@ -23,7 +25,10 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
 import java.io.BufferedReader
+import java.io.File
 import java.io.InputStreamReader
+import com.google.gson.Gson
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -133,11 +138,11 @@ class MainActivity : AppCompatActivity() {
 
             val cardsInput: EditText = findViewById(R.id.cardsPerPlayerInput)
 
-            val numberOfCards = cardsInput.text.toString().toIntOrNull() ?: 0
+            val numberOfCards = cardsInput.text.toString().toIntOrNull() ?: 6
 
 
             val settings = GameSettings(
-                creatorLogin = "",
+                creatorLogin = "Petya",
                 cardsPerPlayer = numberOfCards,
                 situationCards = situationCards,
                 roleCards = roleCards,
@@ -146,16 +151,35 @@ class MainActivity : AppCompatActivity() {
             )
 
             val api = RetrofitClient.instance
-            api.createRoom(settings).enqueue(object : Callback<String> {
-                override fun onResponse(call: Call<String>, response: Response<String>) {
+
+
+// Генерация JSON
+            val jsonString = Gson().toJson(settings)
+
+// Сохранение файла в локальное хранилище эмулятора
+            val fileName = "request.json"
+            val file = File(getExternalFilesDir(null), fileName)
+            file.writeText(jsonString)
+
+// Логируем путь для удобства
+            Log.d("JSON_DEBUG", "JSON файл сохранён в: ${file.absolutePath}")
+
+// Логируем содержимое файла
+            Log.d("JSON_CONTENT", jsonString)
+            Toast.makeText(this@MainActivity, "Файл залогирован", Toast.LENGTH_SHORT).show()
+            api.createRoom(settings).enqueue(object : Callback<CreateRoomResponse> {
+                override fun onResponse(call: Call<CreateRoomResponse>, response: Response<CreateRoomResponse>) {
                     if (response.isSuccessful) {
-                        Toast.makeText(this@MainActivity, "Комната создана", Toast.LENGTH_SHORT).show()
+                        val roomId = response.body()?.roomId
+                        Log.i("Номер комнаты:", roomId.toString())
+                        Toast.makeText(this@MainActivity, "Номер комнаты: $roomId", Toast.LENGTH_SHORT).show()
                     } else {
+                        Log.e("CreateRoom", "Ошибка создания комнаты. Ответ: ${response.code()} ${response.message()}")
                         Toast.makeText(this@MainActivity, "Ошибка создания комнаты", Toast.LENGTH_SHORT).show()
                     }
                 }
 
-                override fun onFailure(call: Call<String>, t: Throwable) {
+                override fun onFailure(call: Call<CreateRoomResponse>, t: Throwable) {
                     Toast.makeText(this@MainActivity, "Ошибка: ${t.message}",Toast.LENGTH_SHORT).show()
                     println("Ошибка: ${t.message}")
                 }
@@ -163,8 +187,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         findGameButton.setOnClickListener {
-            dimBackground.visibility = View.VISIBLE
-            joinGameLayout.visibility=View.VISIBLE
+            val input: EditText = findViewById(R.id.roomNumber)
+            val roomCode = input.text.toString().toIntOrNull() ?: 0
         }
 
 

@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "README.md",
+                "file": "Описание API.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "README"
+              "title": "Описание API"
             }
           }
         ]
@@ -52,7 +52,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "О",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -165,7 +165,9 @@
   },
   "active": "2474049d285fa06f",
   "lastOpenFiles": [
-    "Без названия.canvas",
-    "README.md"
+    "README.md",
+    "app/build/intermediates/linked_resources_binary_format/debug/processDebugResources/output-metadata.json",
+    "app/build/intermediates/linked_resources_binary_format/debug/processDebugResources/linked-resources-binary-format-debug.ap_",
+    "Без названия.canvas"
   ]
 }

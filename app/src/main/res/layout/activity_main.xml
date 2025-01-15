@@ -98,37 +98,37 @@
 
     <!-- Окно, которое открывается после нажатия кнопки "Играть" -->
     <include
-        android:id="@+id/createOrJoinGameLayout"
+
         layout="@layout/create_or_join_game_layout"
         android:visibility="gone"/>
 
     <!-- Окно, которое открывается после нажатия кнопки "Настройки" -->
     <include
-        android:id="@+id/settings"
+
         layout="@layout/settings_layout"
         android:visibility="gone"/>
 
     <!-- Окно, которое открывается после нажатия кнопки "Правила" -->
     <include
-        android:id="@+id/rules"
+
         layout="@layout/rules_layout"
         android:visibility="gone"/>
 
     <!-- Окно, которое открывается после нажатия кнопки Info -->
     <include
-        android:id="@+id/info"
+
         layout="@layout/info_layout"
         android:visibility="gone"/>
 
     <!-- Окно, которое открывается после нажатия кнопки "Создать игру" -->
     <include
-        android:id="@+id/createGameSettingsLayout"
+
         layout="@layout/create_game_settings_layout"
         android:visibility="gone"/>
 
     <!-- Окно, которое открывается после нажатия кнопки "Присоедениться к игре" -->
     <include
-        android:id="@+id/joinGameLayout"
+
         layout="@layout/join_game_layout"
         android:visibility="gone"/>
 

@@ -7,8 +7,12 @@ import retrofit2.http.POST
 
 interface ApiService {
     @POST("/rooms")
-    fun createRoom(@Body settings: GameSettings): Call<String>
+    fun createRoom(@Body settings: GameSettings): Call<CreateRoomResponse>
 }
+
+data class CreateRoomResponse(
+    val roomId: String
+)
 
 data class GameSettings(
     val creatorLogin: String,

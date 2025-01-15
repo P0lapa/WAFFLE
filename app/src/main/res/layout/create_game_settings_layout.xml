@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/createGameSettingsLayout"
     android:elevation="10dp">
 
     <LinearLayout
@@ -55,8 +56,9 @@
                 android:layout_width="0dp"
                 android:layout_height="69dp"
                 android:layout_weight="1"
+                android:textColor="#FFFFFF"
                 android:textAlignment="center"
-                android:background="@drawable/rounded_background_white"
+                android:background="@drawable/rounded_background"
                 android:hint="Введите количество карт"
                 android:inputType="number"
                 android:padding="15dp"

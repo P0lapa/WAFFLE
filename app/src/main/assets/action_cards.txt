@@ -1,5 +1,5 @@
-situation 1
-situation 2
-situation 3
-situation 4
-situation 5 6 7
+action 1
+action 2
+action 3
+action 4
+action 5
