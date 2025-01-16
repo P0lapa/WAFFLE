@@ -9,6 +9,9 @@
     android:background="@drawable/menulogo">
 
     <!-- Кнопка "Играть" -->
+
+    <!-- Кнопка "Настройки" -->
+
     <Button
         android:id="@+id/playButton"
         style="@style/CustomButtonStyle"
@@ -17,10 +20,11 @@
         android:text="Играть"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.493" />
 
-    <!-- Кнопка "Настройки" -->
     <Button
         android:id="@+id/settingsButton"
         style="@style/CustomButtonStyle"
@@ -87,20 +91,20 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="#80000000"
-        android:visibility="gone"
         android:clickable="true"
+        android:elevation="8dp"
         android:focusable="true"
-        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:elevation="8dp"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Окно, которое открывается после нажатия кнопки "Играть" -->
     <include
 
         layout="@layout/create_or_join_game_layout"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <!-- Окно, которое открывается после нажатия кнопки "Настройки" -->
     <include

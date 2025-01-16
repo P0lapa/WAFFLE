@@ -105,9 +105,9 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        fun readCardsFromFile(fileName: String): List<String> {
+        fun readCardsFromFile(fileName: Int): List<String> {
             val cards = mutableListOf<String>()
-            val inputStream = assets.open(fileName)
+            val inputStream = resources.openRawResource(fileName)
             val reader = BufferedReader(InputStreamReader(inputStream))
             reader.useLines { lines ->
                 lines.forEach { line ->
@@ -131,10 +131,10 @@ class MainActivity : AppCompatActivity() {
 
         createGameButton.setOnClickListener {
             // Логика для создания игры
-            val situationCards = readCardsFromFile("situation_cards.txt")
-            val roleCards = readCardsFromFile("role_cards.txt")
-            val moodCards = readCardsFromFile("mood_cards.txt")
-            val actionCards = readCardsFromFile("action_cards.txt")
+            val situationCards = readCardsFromFile(R.raw.situation_cards)
+            val roleCards = readCardsFromFile(R.raw.role_cards)
+            val moodCards = readCardsFromFile(R.raw.mood_cards)
+            val actionCards = readCardsFromFile(R.raw.action_cards)
 
             val cardsInput: EditText = findViewById(R.id.cardsPerPlayerInput)
 
