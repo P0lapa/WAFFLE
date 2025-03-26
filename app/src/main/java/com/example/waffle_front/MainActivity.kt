@@ -17,6 +17,7 @@ import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import com.example.waffle_front.OthersActivity.CreateRoomResponse
 import com.example.waffle_front.OthersActivity.GameSettings
+import com.example.waffle_front.OthersActivity.PlayerResponse
 import com.example.waffle_front.OthersActivity.RetrofitClient
 
 import retrofit2.Call
@@ -167,20 +168,25 @@ class MainActivity : AppCompatActivity() {
 // Логируем содержимое файла
             Log.d("JSON_CONTENT", jsonString)
             Toast.makeText(this@MainActivity, "Файл залогирован", Toast.LENGTH_SHORT).show()
-            api.createRoom(settings).enqueue(object : Callback<CreateRoomResponse> {
-                override fun onResponse(call: Call<CreateRoomResponse>, response: Response<CreateRoomResponse>) {
+            api.createRoom(settings).enqueue(object : Callback<String> {
+                override fun onResponse(call: Call<String>, response: Response<String>) {
                     if (response.isSuccessful) {
-                        val roomId = response.body()?.roomId
+                        val roomId = response.body() // Получаем строку напрямую
                         Log.i("Номер комнаты:", roomId.toString())
                         Toast.makeText(this@MainActivity, "Номер комнаты: $roomId", Toast.LENGTH_SHORT).show()
+                        //запуск окна игры
+                        val intent = Intent(this@MainActivity, MainActivityGame::class.java)
+                        intent.putExtra("room_code", roomId)
+                        intent.putExtra("force_orientation", "landscape")
+                        startActivity(intent)
                     } else {
                         Log.e("CreateRoom", "Ошибка создания комнаты. Ответ: ${response.code()} ${response.message()}")
                         Toast.makeText(this@MainActivity, "Ошибка создания комнаты", Toast.LENGTH_SHORT).show()
                     }
                 }
 
-                override fun onFailure(call: Call<CreateRoomResponse>, t: Throwable) {
-                    Toast.makeText(this@MainActivity, "Ошибка: ${t.message}",Toast.LENGTH_SHORT).show()
+                override fun onFailure(call: Call<String>, t: Throwable) {
+                    Toast.makeText(this@MainActivity, "Ошибка: ${t.message}", Toast.LENGTH_SHORT).show()
                     println("Ошибка: ${t.message}")
                 }
             })
@@ -188,7 +194,33 @@ class MainActivity : AppCompatActivity() {
 
         findGameButton.setOnClickListener {
             val input: EditText = findViewById(R.id.roomNumber)
-            val roomCode = input.text.toString().toIntOrNull() ?: 0
+            val roomCode = input.text.toString() // Получаем roomId как строку
+
+            val login = "" // Логин игрока (можете получить его из другого поля ввода)
+            val api = RetrofitClient.instance
+            // Вызов метода для присоединения к комнате
+            api.joinRoom(roomCode, login).enqueue(object : Callback<PlayerResponse> {
+                override fun onResponse(call: Call<PlayerResponse>, response: Response<PlayerResponse>) {
+                    if (response.isSuccessful) {
+                        val playerResponse = response.body()
+                        if (playerResponse != null) {
+                            Log.i("JOIN_ROOM", "Игрок успешно присоединился к комнате: ${playerResponse.roomId}")
+                            Toast.makeText(this@MainActivity, "Вы присоединились к комнате ${playerResponse.roomId}", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Log.e("JOIN_ROOM", "Ответ сервера пустой")
+                            Toast.makeText(this@MainActivity, "Ошибка: пустой ответ сервера", Toast.LENGTH_SHORT).show()
+                        }
+                    } else {
+                        Log.e("JOIN_ROOM", "Ошибка присоединения к комнате. Код: ${response.code()}, Сообщение: ${response.message()}")
+                        Toast.makeText(this@MainActivity, "Ошибка присоединения к комнате", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<PlayerResponse>, t: Throwable) {
+                    Log.e("JOIN_ROOM", "Ошибка: ${t.message}")
+                    Toast.makeText(this@MainActivity, "Ошибка: ${t.message}", Toast.LENGTH_SHORT).show()
+                }
+            })
         }
 
 
