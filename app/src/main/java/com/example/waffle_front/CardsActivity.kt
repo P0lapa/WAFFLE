@@ -18,6 +18,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintSet.Layout
 import java.io.BufferedReader
+import java.io.File
 import java.io.InputStream
 import java.io.InputStreamReader
 
@@ -33,6 +34,8 @@ class CardsActivity: AppCompatActivity() {
             finish()
         }
 
+        // переменные для работы с картами и группами
+        var usingFileName: String = "error"
         var groupPositionExpand: Int = -1
         var childPositionClicked: Int = -1
 
@@ -96,6 +99,7 @@ class CardsActivity: AppCompatActivity() {
             }
         }
 
+        // Фукция для выставления выбранных групп
         expandableListView.setOnGroupClickListener { parent, v, groupPosition, id ->
             if (expandableListView.isGroupExpanded(groupPosition)){
                 expandableListView.collapseGroup(groupPosition)
@@ -111,41 +115,91 @@ class CardsActivity: AppCompatActivity() {
             true
         }
 
+        // Функция Выобора карты
         expandableListView.setOnChildClickListener { parent, v, groupPosition, childPosition, id ->
             childPositionClicked = childPosition
             true
         }
 
-        fun initListData(fileName: Int) {
+        // Функция для заполнения списка карт из файла
+        fun initListData(resFileName: Int, cardFileName: String) {
             // TODO: Прописать добавления всего из файлов
             listGroup.add("Базовый набор")
-
             val cards = mutableListOf<String>()
-            val inputStream = resources.openRawResource(fileName)
-            val reader = BufferedReader(InputStreamReader(inputStream))
-            reader.useLines { lines ->
-                lines.forEach { line ->
-                    cards.add(line)
+
+            val reader: BufferedReader
+            val file = File(filesDir, cardFileName)
+            // если пользователь до этого не сохранял карты то загружаем стандатные наборы
+            if (file.exists()) {
+                val inputStream = openFileInput(cardFileName)
+                reader = BufferedReader(InputStreamReader(inputStream))
+                reader.useLines { lines ->
+                    lines.forEach { line ->
+                        cards.add(line)
+                    }
+                }
+            } else {
+                val inputStream = resources.openRawResource(resFileName)
+                reader = BufferedReader(InputStreamReader(inputStream))
+                reader.useLines { lines ->
+                    lines.forEach { line ->
+                        cards.add(line)
+                    }
                 }
             }
+
             listItem[listGroup[0]] = cards
 
             reader.close()
             listAdapter.notifyDataSetChanged()
         }
 
-        // Затемнение фона
-        val dimBackground: View = findViewById(R.id.dimBackground)
+        // Функция сохранения данных в файл
+        fun saveListData(fileName: String) {
+            if (usingFileName == "error"){
+                return
+            }
+
+            try {
+                val outputStream = openFileOutput(fileName, Context.MODE_PRIVATE)
+                val writer = outputStream.bufferedWriter()
+                listGroup.forEach { group ->
+                    listItem[group]?.forEach { item ->
+                        writer.write("$item\n")
+                    }
+                }
+                writer.close()
+                outputStream.close()
+
+                Toast.makeText(this, "Данные успешно сохранены в $fileName", Toast.LENGTH_SHORT).show()
+            } catch (e: Exception) {
+                Toast.makeText(this, "Ошибка при сохранении данных: ${e.message}", Toast.LENGTH_SHORT).show()
+                e.printStackTrace()
+            }
+            usingFileName = "error"
+        }
 
         // Виджет со списком карт
         val listLayout: View = findViewById(R.id.cardsList)
+
+        // Затемнение фона
+        val dimBackground: View = findViewById(R.id.dimBackground)
+        dimBackground.setOnClickListener {
+            saveListData(usingFileName)
+            dimBackground.visibility = View.GONE
+            listLayout.visibility = View.GONE
+            listGroup.clear()
+            listItem.clear()
+            listAdapter.notifyDataSetChanged()
+        }
 
         // Вызов списка с картами действий
         val button: Button = findViewById(R.id.button)
         button.setOnClickListener {
             dimBackground.visibility = View.VISIBLE
             listLayout.visibility = View.VISIBLE
-            initListData(R.raw.action_cards)
+            usingFileName = "action_cards.txt"
+            initListData(R.raw.action_cards, "action_cards.txt")
         }
 
         // Вызов списка с картами ролей
@@ -153,7 +207,8 @@ class CardsActivity: AppCompatActivity() {
         button2.setOnClickListener {
             dimBackground.visibility = View.VISIBLE
             listLayout.visibility = View.VISIBLE
-            initListData(R.raw.role_cards)
+            usingFileName = "role_cards.txt"
+            initListData(R.raw.role_cards, "role_cards.txt")
         }
 
         // Вызов списка с картами настроений
@@ -161,7 +216,8 @@ class CardsActivity: AppCompatActivity() {
         button3.setOnClickListener {
             dimBackground.visibility = View.VISIBLE
             listLayout.visibility = View.VISIBLE
-            initListData(R.raw.mood_cards)
+            usingFileName = "mood_cards.txt"
+            initListData(R.raw.mood_cards, "mood_cards.txt")
         }
 
         // Вызов списка с картами ситуций
@@ -169,16 +225,20 @@ class CardsActivity: AppCompatActivity() {
         button4.setOnClickListener {
             dimBackground.visibility = View.VISIBLE
             listLayout.visibility = View.VISIBLE
-            initListData(R.raw.situation_cards)
+            usingFileName = "situation_cards.txt"
+            initListData(R.raw.situation_cards, "situation_cards.txt")
         }
 
-        dimBackground.setOnClickListener {
+        val saveCardData: Button = findViewById(R.id.saveCardsButton)
+        saveCardData.setOnClickListener {
+            saveListData(usingFileName)
             dimBackground.visibility = View.GONE
             listLayout.visibility = View.GONE
             listGroup.clear()
             listItem.clear()
             listAdapter.notifyDataSetChanged()
         }
+
     }
 }
 
