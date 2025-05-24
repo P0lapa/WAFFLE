@@ -18,18 +18,114 @@
         android:padding="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.444"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.738">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/infoText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             style="@style/CustomButtonStyle1"
-            android:text="Эта часть приложения пока не доделана. Можете доделать тут что-то(файл info_layout.xml)"
-            android:textSize="30sp"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="Для обратной связи: add_some_mail@gmail.com"
+            android:textAlignment="center"
+            android:textSize="28sp"
+            android:autoLink="email" />
+
+        <TextView
+            style="@style/CustomButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            android:text="Разработка игры:"
+            android:textAlignment="viewStart"
+            android:textSize="25sp" />
+
+        <TextView
+            style="@style/CustomButtonStyle1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Прозорова Екатерина"
+            android:textAlignment="viewStart"
+            android:textSize="25sp" />
+
+        <TextView
+            style="@style/CustomButtonStyle1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Бельская Виктория"
+            android:textAlignment="viewStart"
+            android:textSize="25sp" />
+
+        <TextView
+            style="@style/CustomButtonStyle1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Дмитрова Ульяна"
+            android:textAlignment="viewStart"
+            android:textSize="25sp" />
+
+        <TextView
+            style="@style/CustomButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            android:text="Оформление:"
+            android:textAlignment="viewStart"
+            android:textSize="25sp" />
+
+        <TextView
+            style="@style/CustomButtonStyle1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Прозорова Екатерина"
+            android:textAlignment="viewStart"
+            android:textSize="25sp" />
+
+        <TextView
+            style="@style/CustomButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            android:text="Разработка мобильного приложения:"
+            android:textAlignment="viewStart"
+            android:textSize="25sp" />
+
+        <TextView
+            style="@style/CustomButtonStyle1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Полапа Владимир"
+            android:textAlignment="viewStart"
+            android:textSize="25sp" />
+
+        <TextView
+            style="@style/CustomButtonStyle1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ипатов Сергей"
+            android:textAlignment="viewStart"
+            android:textSize="25sp" />
+
+        <TextView
+            style="@style/CustomButtonStyle1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Шевнин Максим"
+            android:textAlignment="viewStart"
+            android:textSize="25sp" />
+
+        <TextView
+            style="@style/CustomButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="🎉Приятной игры в WAFFLE! 🎉"
+            android:textAlignment="center"
+            android:textSize="25sp" />
+
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

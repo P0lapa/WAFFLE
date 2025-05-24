@@ -9,12 +9,15 @@
     android:elevation="10dp">
 
     <ScrollView
+        android:id="@+id/scrollRules"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/closeRulesButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        android:fillViewport="true">
+
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -31,142 +34,339 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.738">
 
-<!--            <TextView-->
-<!--                android:id="@+id/rulesText"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                style="@style/CustomButtonStyle1"-->
-<!--                android:text="Эта часть приложения пока не доделана. Можете доделать тут что-то(файл rules_layout.xml)"-->
-<!--                android:textSize="30sp"/>-->
-
             <TextView
+                style="@style/CustomButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
                 android:text="Правила игры WAFFLE!"
-                android:textSize="36sp"
                 android:textAlignment="center"
-                android:layout_marginBottom="16dp"
-                style="@style/CustomButtonStyle"/>
+                android:textSize="36sp" />
 
             <TextView
+                style="@style/CustomButtonStyle1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
                 android:text="WAFFLE! — это игра, которая помогает изучающим английский язык развивать коммуникативные навыки, быстро мыслить и поддерживать оживленный диалог, используя разнообразную лексику. Главная цель — получить удовольствие от игры, не расстраиваясь, если что-то не получается. Все учатся и веселятся вместе!"
-                android:textSize="28sp"
                 android:textAlignment="center"
-                android:layout_marginBottom="16dp"
-                style="@style/CustomButtonStyle1"/>
+                android:textSize="28sp" />
 
             <TextView
+                style="@style/CustomButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
                 android:text="Начало игры:"
-                android:textSize="28sp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
-                style="@style/CustomButtonStyle"
-                android:textAlignment="viewStart"/>
+                android:textAlignment="viewStart"
+                android:textSize="28sp" />
 
             <TextView
+                style="@style/CustomButtonStyle1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
                 android:text="1. Каждому игроку раздается по 4-5 активных карт (количество можно менять по желанию)."
-                android:textSize="28sp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
-                style="@style/CustomButtonStyle1"
-                android:textAlignment="viewStart"/>
+                android:textAlignment="viewStart"
+                android:textSize="28sp" />
 
             <TextView
+                style="@style/CustomButtonStyle1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
                 android:text="2. Остальные стопки карт пока не используются."
-                android:textSize="28sp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
-                style="@style/CustomButtonStyle1"
-                android:textAlignment="viewStart"/>
+                android:textAlignment="viewStart"
+                android:textSize="28sp" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Выбор собеседников:"
-                android:textSize="28sp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
                 style="@style/CustomButtonStyle"
-                android:textAlignment="viewStart"/>
-
-            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="Выбор собеседников:"
+                android:textAlignment="viewStart"
+                android:textSize="28sp" />
+
+            <TextView
+                style="@style/CustomButtonStyle1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
                 android:text="• Для диалога необходимо объединиться минимум 2 игрокам."
-                android:textSize="28sp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
-                style="@style/CustomButtonStyle1"
-                android:textAlignment="viewStart"/>
+                android:textAlignment="viewStart"
+                android:textSize="28sp" />
 
             <TextView
+                style="@style/CustomButtonStyle1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
                 android:text="• Количество игроков в одном диалоге не ограничено, но рекомендуется 5-6 человек."
-                android:textSize="28sp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
-                style="@style/CustomButtonStyle1"
-                android:textAlignment="viewStart"/>
+                android:textAlignment="viewStart"
+                android:textSize="28sp" />
 
             <TextView
+                style="@style/CustomButtonStyle1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
                 android:text="• Можно объединиться в две небольшие команды или составить монолог."
-                android:textSize="28sp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
-                style="@style/CustomButtonStyle1"
-                android:textAlignment="viewStart"/>
+                android:textAlignment="viewStart"
+                android:textSize="28sp" />
 
             <TextView
+                style="@style/CustomButtonStyle1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
                 android:text="• Собеседники могут выбираться разными способами, например:"
-                android:textSize="28sp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
-                style="@style/CustomButtonStyle1"
-                android:textAlignment="viewStart"/>
+                android:textAlignment="viewStart"
+                android:textSize="28sp" />
 
             <TextView
+                style="@style/CustomButtonStyle1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="- Игроки объединяются по цепочке (сидящие рядом или напротив)."
-                android:textSize="24sp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="1dp"
-                style="@style/CustomButtonStyle1"
+                android:paddingLeft="50dp"
+                android:text="- Игроки объединяются по цепочке (сидящие рядом или напротив)."
                 android:textAlignment="viewStart"
-                android:paddingLeft="50dp"/>
+                android:textSize="24sp" />
 
             <TextView
+                style="@style/CustomButtonStyle1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="- Можно использовать любой другой способ случайного распределения."
-                android:textSize="24sp"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="8dp"
-                style="@style/CustomButtonStyle1"
+                android:paddingLeft="50dp"
+                android:text="- Можно использовать любой другой способ случайного распределения."
                 android:textAlignment="viewStart"
-                android:paddingLeft="50dp"/>
+                android:textSize="24sp" />
 
-            <Button
-                android:id="@+id/closeRulesButton"
+            <TextView
                 style="@style/CustomButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp"
-                android:text="Назад"/>
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="Типы карт:"
+                android:textAlignment="viewStart"
+                android:textSize="28sp" />
+
+            <TextView
+                style="@style/CustomButtonStyle1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="1. Карты ролей (Role Cards):"
+                android:textAlignment="viewStart"
+                android:textSize="28sp" />
+
+            <TextView
+                style="@style/CustomButtonStyle1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="8dp"
+                android:paddingLeft="50dp"
+                android:text="Определяют роль, которую игрок принимает на себя в диалоге."
+                android:textAlignment="viewStart"
+                android:textSize="24sp" />
+
+            <TextView
+                style="@style/CustomButtonStyle1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="2. Активные карты (Active Cards):"
+                android:textAlignment="viewStart"
+                android:textSize="28sp" />
+
+            <TextView
+                style="@style/CustomButtonStyle1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="8dp"
+                android:paddingLeft="50dp"
+                android:text="Содержат фразы, которые должны быть использованы в диалоге. Обязательно использовать все выданные карты!"
+                android:textAlignment="viewStart"
+                android:textSize="24sp" />
+
+            <TextView
+                style="@style/CustomButtonStyle1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="3. Карты ситуаций (Situations):"
+                android:textAlignment="viewStart"
+                android:textSize="28sp" />
+
+            <TextView
+                style="@style/CustomButtonStyle1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="8dp"
+                android:paddingLeft="50dp"
+                android:text="Определяют обстановку или событие, которое обсуждают собеседники. Общая для всех участников диалога."
+                android:textAlignment="viewStart"
+                android:textSize="24sp" />
+
+            <TextView
+                style="@style/CustomButtonStyle1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="4. Карты тона (Moods):"
+                android:textAlignment="viewStart"
+                android:textSize="28sp" />
+
+            <TextView
+                style="@style/CustomButtonStyle1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="8dp"
+                android:paddingLeft="50dp"
+                android:text="Задают настроение диалога для каждого игрока. Тон может противоречить ситуации — это нормально!"
+                android:textAlignment="viewStart"
+                android:textSize="24sp" />
+
+            <TextView
+                style="@style/CustomButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="Режимы игры:"
+                android:textAlignment="viewStart"
+                android:textSize="28sp" />
+
+            <TextView
+                style="@style/CustomButtonStyle1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="• Подготовка:"
+                android:textAlignment="viewStart"
+                android:textSize="28sp" />
+
+            <TextView
+                style="@style/CustomButtonStyle1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="8dp"
+                android:paddingLeft="50dp"
+                android:text="Игрокам дается фиксированное время на подготовку диалога."
+                android:textAlignment="viewStart"
+                android:textSize="24sp" />
+
+            <TextView
+                style="@style/CustomButtonStyle1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="• Импровизация:"
+                android:textAlignment="viewStart"
+                android:textSize="28sp" />
+
+            <TextView
+                style="@style/CustomButtonStyle1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="8dp"
+                android:paddingLeft="50dp"
+                android:text="Игроки составляют диалоги сразу, импровизируя."
+                android:textAlignment="viewStart"
+                android:textSize="24sp" />
+
+            <TextView
+                style="@style/CustomButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="Советы:"
+                android:textAlignment="viewStart"
+                android:textSize="28sp" />
+
+
+
+            <TextView
+                style="@style/CustomButtonStyle1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="• Активные карты должны быть вписаны в реплики грамматически верно."
+                android:textAlignment="viewStart"
+                android:textSize="28sp" />
+
+            <TextView
+                style="@style/CustomButtonStyle1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="• Использованные карты можно выкладывать драматично — это сделает игру ярче и поможет следить за оставшимися картами."
+                android:textAlignment="viewStart"
+                android:textSize="28sp" />
+
+            <TextView
+                style="@style/CustomButtonStyle1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="• Правила гибкие, поэтому не бойтесь экспериментировать с режимами или придумывать свои!"
+                android:textAlignment="viewStart"
+                android:textSize="28sp" />
+
+            <TextView
+                style="@style/CustomButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="Приятной игры в WAFFLE! 🎉"
+                android:textAlignment="center"
+                android:textSize="28sp" />
+
+
+
 
         </LinearLayout>
     </ScrollView>
+
+    <Button
+        android:id="@+id/closeRulesButton"
+        android:backgroundTint="@color/brown"
+        style="@style/CustomButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:text="Назад"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
