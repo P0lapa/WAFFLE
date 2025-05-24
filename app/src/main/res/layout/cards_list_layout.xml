@@ -28,7 +28,9 @@
             android:id="@+id/expandableListView"
             android:layout_width="match_parent"
             android:layout_height="203dp"
-            android:layout_weight="1" >
+            android:layout_weight="1"
+            android:focusableInTouchMode="true"
+            >
 
         </ExpandableListView>
 
@@ -47,7 +49,7 @@
             android:layout_height="wrap_content"
             android:text="Добавить Набор"
             android:textSize="34sp"
-            android:visibility="gone" />
+            />
 
         <Button
             android:id="@+id/deleteItemButton"

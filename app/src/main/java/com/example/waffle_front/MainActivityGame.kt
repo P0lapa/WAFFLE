@@ -26,6 +26,7 @@ class MainActivityGame : AppCompatActivity() {
         }
 
         val roomId = intent.getStringExtra("room_code") ?: "ОШИБКА: код не получен"
+        val isCreator = intent.getBooleanExtra("is_creator", false)
 
         val showRoomId : View = findViewById(R.id.showRoomCodeLayout)
         val dimBackground: View = findViewById(R.id.dimBackground)
@@ -33,8 +34,14 @@ class MainActivityGame : AppCompatActivity() {
 
         roomIdView.text = roomId
 
-        //dimBackground.visibility = View.VISIBLE
-        showRoomId.visibility= View.VISIBLE
+
+        if (isCreator) {
+            showRoomId.visibility = View.VISIBLE
+            // dimBackground.visibility = View.VISIBLE
+        } else {
+            showRoomId.visibility = View.GONE
+            dimBackground.visibility = View.VISIBLE
+        }
 
     }
 }

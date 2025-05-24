@@ -18,6 +18,12 @@ interface ApiService {
         @Path("roomId") roomId: String,
         @Body login: String
     ): Call<PlayerResponse> // Предположим, что сервер возвращает информацию о игроке
+
+//    @POST("/rooms/{roomId}/start ") //начать игру
+//    fun startGame(
+//        @Path("/start")
+//    )
+
 }
 
 data class CreateRoomResponse(
@@ -34,7 +40,7 @@ data class GameSettings(
     val actionCards: List<String>
     //если ещё какие поля должны быть в json добавлять сюда
 )
-
+git
 // Класс для ответа сервера при успешном присоединении
 data class PlayerResponse(
     val playerId: String,

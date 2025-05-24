@@ -17,4 +17,26 @@
     android:strokeColor и android:strokeWidth
 </style>
 
+    <style name="CustomExpandableListView" parent="Widget.AppCompat.ListView">
+        <!-- Основные свойства -->
+        <item name="android:fontFamily">@font/blackberry_normal</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">16sp</item>
+
+        <!-- Фон всего списка -->
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+
+        <!-- Разделители между элементами -->
+        <item name="android:divider">@color/black</item>
+        <item name="android:dividerHeight">1dp</item>
+
+        <!-- Стиль для групп (родительских элементов) -->
+<!--        <item name="android:groupIndicator">@drawable/custom_group_indicator</item>-->
+<!--        <item name="android:listSelector">@drawable/expandable_list_selector</item>-->
+
+        <!-- Обводка (stroke) -->
+        <item name="android:strokeColor">@color/pink</item>
+        <item name="android:strokeWidth">2</item>
+    </style>
+
 </resources>

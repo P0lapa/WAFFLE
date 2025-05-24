@@ -78,6 +78,12 @@ class MainActivity : AppCompatActivity() {
         rulesButton.setOnClickListener {
             dimBackground.visibility = View.VISIBLE
             rulesLayout.visibility = View.VISIBLE
+
+            val closeRulesButton: Button = findViewById(R.id.closeRulesButton)
+            closeRulesButton.setOnClickListener {
+                dimBackground.visibility = View.GONE
+                rulesLayout.visibility = View.GONE
+            }
         }
 
          //Обработчик для кнопки "Info"
@@ -131,7 +137,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         createGameButton.setOnClickListener {
-            // Логика для создания игры
             val situationCards = readCardsFromFile(R.raw.situation_cards)
             val roleCards = readCardsFromFile(R.raw.role_cards)
             val moodCards = readCardsFromFile(R.raw.mood_cards)
@@ -157,7 +162,7 @@ class MainActivity : AppCompatActivity() {
 // Генерация JSON
             val jsonString = Gson().toJson(settings)
 
-// Сохранение файла в локальное хранилище эмулятора
+// Сохранение файла в локальное хранилище
             val fileName = "request.json"
             val file = File(getExternalFilesDir(null), fileName)
             file.writeText(jsonString)
@@ -177,6 +182,7 @@ class MainActivity : AppCompatActivity() {
                         //запуск окна игры
                         val intent = Intent(this@MainActivity, MainActivityGame::class.java)
                         intent.putExtra("room_code", roomId)
+                        intent.putExtra("is_creator", true)
                         intent.putExtra("force_orientation", "landscape")
                         startActivity(intent)
                     } else {
@@ -194,9 +200,9 @@ class MainActivity : AppCompatActivity() {
 
         findGameButton.setOnClickListener {
             val input: EditText = findViewById(R.id.roomNumber)
-            val roomCode = input.text.toString() // Получаем roomId как строку
+            val roomCode = input.text.toString() // Получаем roomId
 
-            val login = "" // Логин игрока (можете получить его из другого поля ввода)
+            val login = "" // Логин игрока
             val api = RetrofitClient.instance
             // Вызов метода для присоединения к комнате
             api.joinRoom(roomCode, login).enqueue(object : Callback<PlayerResponse> {
@@ -205,7 +211,12 @@ class MainActivity : AppCompatActivity() {
                         val playerResponse = response.body()
                         if (playerResponse != null) {
                             Log.i("JOIN_ROOM", "Игрок успешно присоединился к комнате: ${playerResponse.roomId}")
-                            Toast.makeText(this@MainActivity, "Вы присоединились к комнате ${playerResponse.roomId}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@MainActivity, "Вы присоединились к комнате $roomCode", Toast.LENGTH_SHORT).show() //${playerResponse.roomId}
+                            //Запуск layout игры
+                            val intent = Intent(this@MainActivity, MainActivityGame::class.java)
+                            intent.putExtra("room_code", roomCode)
+                            intent.putExtra("force_orientation", "landscape")
+                            startActivity(intent)
                         } else {
                             Log.e("JOIN_ROOM", "Ответ сервера пустой")
                             Toast.makeText(this@MainActivity, "Ошибка: пустой ответ сервера", Toast.LENGTH_SHORT).show()
