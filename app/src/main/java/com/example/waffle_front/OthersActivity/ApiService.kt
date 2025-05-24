@@ -40,7 +40,7 @@ data class GameSettings(
     val actionCards: List<String>
     //если ещё какие поля должны быть в json добавлять сюда
 )
-git
+
 // Класс для ответа сервера при успешном присоединении
 data class PlayerResponse(
     val playerId: String,
