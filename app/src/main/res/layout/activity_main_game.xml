@@ -1,21 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mainGame"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivityGame"
-    android:background="@drawable/waffle_game_field_screen"
-    android:orientation="horizontal">
-    <!-- Затемнение фона -->
+    android:background="@drawable/waffle_game_field_screen">
+
+    <!-- Карточка ситуации (левый верхний угол) -->
+    <!-- Кнопка смены карточки (только для создателя) -->
+<!--    <ImageButton-->
+<!--        android:id="@+id/changeSituationButton"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="8dp"-->
+
+<!--        android:src="@drawable/swap_icon_symbol_version"-->
+<!--        android:background="?selectableItemBackgroundBorderless"-->
+<!--        app:layout_constraintStart_toEndOf="@id/situationCardButton"-->
+<!--        app:layout_constraintTop_toTopOf="@id/situationCardButton" />-->
+
+
+    <FrameLayout
+        android:id="@+id/situationCard"
+        android:layout_width="140dp"
+        android:layout_height="110dp"
+        android:elevation="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.02"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.02">
+
+        <ImageButton
+            android:id="@+id/situationCardButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/sit"
+            android:contentDescription="Карточка ситуации"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/situationText"
+            style="@style/CustomButtonStyle1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:textColor="#000"
+            android:textSize="20sp"
+            android:clickable="false"
+            android:focusable="false" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/situationCardModal"
+        android:layout_width="400dp"
+        android:layout_height="300dp"
+        android:orientation="vertical"
+        android:background="@drawable/sit"
+        android:visibility="gone"
+        android:elevation="25dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+<!--        <ImageView-->
+<!--            android:id="@+id/modalCardImage"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="200dp"-->
+<!--            android:scaleType="centerCrop"-->
+<!--            android:src="@drawable/sit"/>-->
+
+        <TextView
+            android:id="@+id/situationTextModal"
+            style="@style/CustomButtonStyle1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="80dp"
+            android:textSize="40sp"
+            android:textColor="#000"/>
+
+<!--        <Button-->
+<!--            android:id="@+id/closeModalButton"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center_horizontal"-->
+<!--            android:layout_marginBottom="16dp"-->
+<!--            android:text="Закрыть"/>-->
+    </LinearLayout>
+
+    <!-- Затемнение фона (у вас уже есть) -->
     <View
-        android:id="@+id/dimBackground"
+        android:id="@+id/dimBackgroundMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#80000000"
         android:clickable="true"
-        android:elevation="8dp"
+        android:elevation="20dp"
         android:focusable="true"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -23,12 +109,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!--окно показывающее код комнаты-->
+    <!-- Окно с кодом комнаты (у вас уже есть) -->
     <include
-
         layout="@layout/show_room_code_layout"
         android:visibility="gone" />
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

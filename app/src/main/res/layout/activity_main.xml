@@ -9,68 +9,85 @@
     android:background="@drawable/menulogo">
 
     <!-- Кнопка "Играть" -->
-
-    <!-- Кнопка "Настройки" -->
-
     <Button
         android:id="@+id/playButton"
         style="@style/CustomButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
         android:text="Играть"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/settingsButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.493" />
+        app:layout_constraintTop_toBottomOf="@+id/guideline"
+    />
 
+    <!-- Кнопка "Настройки" -->
     <Button
         android:id="@+id/settingsButton"
         style="@style/CustomButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
         android:text="Настройки"
         app:layout_constraintBottom_toTopOf="@id/rulesButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/playButton" />
+        app:layout_constraintTop_toBottomOf="@id/playButton"
+    />
 
-    <!-- Кнопка "Правила" -->
     <Button
         android:id="@+id/rulesButton"
         style="@style/CustomButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
         android:text="Правила"
         app:layout_constraintBottom_toTopOf="@id/myCardsButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/settingsButton" />
+        app:layout_constraintTop_toBottomOf="@id/settingsButton"
+    />
 
-    <!-- Кнопка "Мои Карточки" -->
     <Button
         android:id="@+id/myCardsButton"
         style="@style/CustomButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
         android:text="Мои Карты"
         app:layout_constraintBottom_toTopOf="@id/exitButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rulesButton" />
+        app:layout_constraintTop_toBottomOf="@id/rulesButton"
+    />
 
-    <!-- Кнопка "Выход" -->
     <Button
         android:id="@+id/exitButton"
         style="@style/CustomButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
         android:text="Выход"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/myCardsButton" />
+        app:layout_constraintTop_toBottomOf="@id/myCardsButton"
+    />
+
+    <!-- Горизонтальная направляющая, от которой начинается меню -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.38" />  <!-- 30% от верха экрана -->
 
     <!-- Кнопка "Info" -->
     <ImageButton

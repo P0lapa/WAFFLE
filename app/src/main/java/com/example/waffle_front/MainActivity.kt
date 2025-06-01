@@ -1,35 +1,25 @@
 package com.example.waffle_front
-import StrokeSpan
+
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-
-import android.graphics.Color
-import android.text.SpannableString
-import android.text.Spanned
-import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import com.example.waffle_front.OthersActivity.CreateRoomResponse
+import androidx.appcompat.app.AppCompatActivity
 import com.example.waffle_front.OthersActivity.GameSettings
-import com.example.waffle_front.OthersActivity.PlayerResponse
-import com.example.waffle_front.OthersActivity.RetrofitClient
-
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.POST
+import com.example.waffle_front.OthersActivity.ServerManager
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
-import com.google.gson.Gson
 
+@kotlinx.serialization.Serializable
+data class Settings(val foo: String, val bar: Int)
 
 class MainActivity : AppCompatActivity() {
 
@@ -70,20 +60,24 @@ class MainActivity : AppCompatActivity() {
 
         // Обработчик для кнопки "Настройки"
         settingsButton.setOnClickListener {
+//            Toast.makeText(this, "Настройки", Toast.LENGTH_SHORT).show()
+//            // TODO: Добавить логику для управления паками и добавленияя своих слов в паки
+//            val intent = Intent(this, SettingsActivity::class.java)
+//            startActivity(intent)
             dimBackground.visibility = View.VISIBLE
             settingsLayout.visibility = View.VISIBLE
-        }
-
-         //Обработчик для кнопки "Правила"
-        rulesButton.setOnClickListener {
-            dimBackground.visibility = View.VISIBLE
-            rulesLayout.visibility = View.VISIBLE
 
             val closeRulesButton: Button = findViewById(R.id.closeRulesButton)
             closeRulesButton.setOnClickListener {
                 dimBackground.visibility = View.GONE
                 rulesLayout.visibility = View.GONE
             }
+        }
+
+         //Обработчик для кнопки "Правила"
+        rulesButton.setOnClickListener {
+            dimBackground.visibility = View.VISIBLE
+            rulesLayout.visibility = View.VISIBLE
         }
 
          //Обработчик для кнопки "Info"
@@ -95,7 +89,7 @@ class MainActivity : AppCompatActivity() {
         // Обработчик для кнопки "Мои Карты"
         myCards.setOnClickListener {
             Toast.makeText(this, "Мои карты нажаты", Toast.LENGTH_SHORT).show()
-            // TODO: Добавить логику для управления паками и добавленияя своих слов в паки
+            // TODO: Добавить логику для управления паками и добавленияя своих слов в паки ла-ла ла
             val intent = Intent(this, CardsActivity::class.java)
             startActivity(intent)
         }
@@ -111,7 +105,6 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-
         fun readCardsFromFile(fileName: Int): List<String> {
             val cards = mutableListOf<String>()
             val inputStream = resources.openRawResource(fileName)
@@ -123,7 +116,6 @@ class MainActivity : AppCompatActivity() {
             }
             return cards
         }
-
 
 
         joinGameButton.setOnClickListener {
@@ -141,11 +133,8 @@ class MainActivity : AppCompatActivity() {
             val roleCards = readCardsFromFile(R.raw.role_cards)
             val moodCards = readCardsFromFile(R.raw.mood_cards)
             val actionCards = readCardsFromFile(R.raw.action_cards)
-
             val cardsInput: EditText = findViewById(R.id.cardsPerPlayerInput)
-
             val numberOfCards = cardsInput.text.toString().toIntOrNull() ?: 6
-
 
             val settings = GameSettings(
                 creatorLogin = "Petya",
@@ -155,81 +144,57 @@ class MainActivity : AppCompatActivity() {
                 moodCards = moodCards,
                 actionCards = actionCards
             )
-
-            val api = RetrofitClient.instance
-
-
-// Генерация JSON
-            val jsonString = Gson().toJson(settings)
-
-// Сохранение файла в локальное хранилище
+            val jsonString = Json.encodeToString(settings)
             val fileName = "request.json"
             val file = File(getExternalFilesDir(null), fileName)
             file.writeText(jsonString)
-
-// Логируем путь для удобства
             Log.d("JSON_DEBUG", "JSON файл сохранён в: ${file.absolutePath}")
-
-// Логируем содержимое файла
             Log.d("JSON_CONTENT", jsonString)
-            Toast.makeText(this@MainActivity, "Файл залогирован", Toast.LENGTH_SHORT).show()
-            api.createRoom(settings).enqueue(object : Callback<String> {
-                override fun onResponse(call: Call<String>, response: Response<String>) {
-                    if (response.isSuccessful) {
-                        val roomId = response.body() // Получаем строку напрямую
-                        Log.i("Номер комнаты:", roomId.toString())
-                        Toast.makeText(this@MainActivity, "Номер комнаты: $roomId", Toast.LENGTH_SHORT).show()
-                        //запуск окна игры
-                        val intent = Intent(this@MainActivity, MainActivityGame::class.java)
-                        intent.putExtra("room_code", roomId)
-                        intent.putExtra("is_creator", true)
-                        intent.putExtra("force_orientation", "landscape")
-                        startActivity(intent)
-                    } else {
-                        Log.e("CreateRoom", "Ошибка создания комнаты. Ответ: ${response.code()} ${response.message()}")
-                        Toast.makeText(this@MainActivity, "Ошибка создания комнаты", Toast.LENGTH_SHORT).show()
+            // Создаём комнату через ServerManager
+            val serverManager = ServerManager(this)  // Передаём контекст Activity
+            serverManager.createRoom(settings, object : ServerManager.RoomCreationCallback {
+                override fun onSuccess(roomId: String) {
+                    Toast.makeText(this@MainActivity, "Комната создана: $roomId", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this@MainActivity, MainActivityGame::class.java).apply {
+                        putExtra("room_code", roomId)
+                        putExtra("is_creator", true)
+                        putExtra("force_orientation", "landscape")
                     }
+                    startActivity(intent)
                 }
 
-                override fun onFailure(call: Call<String>, t: Throwable) {
-                    Toast.makeText(this@MainActivity, "Ошибка: ${t.message}", Toast.LENGTH_SHORT).show()
-                    println("Ошибка: ${t.message}")
+                override fun onError(errorMessage: String) {
+                    Toast.makeText(this@MainActivity, errorMessage, Toast.LENGTH_SHORT).show()
+                    Log.e("API_ERROR", errorMessage)
                 }
             })
         }
 
         findGameButton.setOnClickListener {
             val input: EditText = findViewById(R.id.roomNumber)
-            val roomCode = input.text.toString() // Получаем roomId
-
-            val login = "" // Логин игрока
-            val api = RetrofitClient.instance
-            // Вызов метода для присоединения к комнате
-            api.joinRoom(roomCode, login).enqueue(object : Callback<PlayerResponse> {
-                override fun onResponse(call: Call<PlayerResponse>, response: Response<PlayerResponse>) {
-                    if (response.isSuccessful) {
-                        val playerResponse = response.body()
-                        if (playerResponse != null) {
-                            Log.i("JOIN_ROOM", "Игрок успешно присоединился к комнате: ${playerResponse.roomId}")
-                            Toast.makeText(this@MainActivity, "Вы присоединились к комнате $roomCode", Toast.LENGTH_SHORT).show() //${playerResponse.roomId}
-                            //Запуск layout игры
-                            val intent = Intent(this@MainActivity, MainActivityGame::class.java)
-                            intent.putExtra("room_code", roomCode)
-                            intent.putExtra("force_orientation", "landscape")
-                            startActivity(intent)
-                        } else {
-                            Log.e("JOIN_ROOM", "Ответ сервера пустой")
-                            Toast.makeText(this@MainActivity, "Ошибка: пустой ответ сервера", Toast.LENGTH_SHORT).show()
-                        }
-                    } else {
-                        Log.e("JOIN_ROOM", "Ошибка присоединения к комнате. Код: ${response.code()}, Сообщение: ${response.message()}")
-                        Toast.makeText(this@MainActivity, "Ошибка присоединения к комнате", Toast.LENGTH_SHORT).show()
+            val roomCode = input.text.toString()
+            val login = "Volodya" // Можно заменить на реальный логин из EditText
+            if (roomCode.isEmpty()) {
+                Toast.makeText(this, "Введите номер комнаты", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            val serverManager = ServerManager(this)
+            serverManager.joinRoom(roomCode, login, object : ServerManager.JoinRoomCallback {
+                override fun onSuccess(roomCode: String) {
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Вы присоединились к комнате $roomCode",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    val intent = Intent(this@MainActivity, MainActivityGame::class.java).apply {
+                        putExtra("room_code", roomCode)
+                        putExtra("force_orientation", "landscape")
                     }
+                    startActivity(intent)
                 }
-
-                override fun onFailure(call: Call<PlayerResponse>, t: Throwable) {
-                    Log.e("JOIN_ROOM", "Ошибка: ${t.message}")
-                    Toast.makeText(this@MainActivity, "Ошибка: ${t.message}", Toast.LENGTH_SHORT).show()
+                override fun onError(errorMessage: String) {
+                    Toast.makeText(this@MainActivity, errorMessage, Toast.LENGTH_SHORT).show()
+                    Log.e("JOIN_ROOM", errorMessage)
                 }
             })
         }

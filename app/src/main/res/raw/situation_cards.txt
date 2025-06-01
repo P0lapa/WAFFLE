@@ -3,3 +3,8 @@ situation 2
 situation 3
 situation 4
 situation 5
+situation 10
+situation 9
+situation 8
+situation 7
+situation 6

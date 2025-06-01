@@ -12,26 +12,55 @@
     <View
         android:id="@+id/dimBackground"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:background="#80000000"
         android:clickable="true"
-        android:elevation="8dp"
+        android:fitsSystemWindows="true"
         android:focusable="true"
+        android:elevation="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+<!--    <FrameLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent">-->
+
+<!--        &lt;!&ndash; Основной контент &ndash;&gt;-->
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Ваш контент здесь"/>-->
+
+<!--        &lt;!&ndash; Затемнение + GIF &ndash;&gt;-->
+<!--        <RelativeLayout-->
+<!--            android:id="@+id/loadingPanel"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:visibility="gone"-->
+<!--            android:background="#80000000">-->
+
+<!--            <ImageView-->
+<!--                android:id="@+id/loadingGif"-->
+<!--                android:layout_width="100dp"-->
+<!--                android:layout_height="100dp"-->
+<!--                android:layout_centerInParent="true"-->
+<!--                android:elevation="8dp"/>-->
+<!--        </RelativeLayout>-->
+<!--    </FrameLayout>-->
+
     <!-- Основное окно с кодом комнаты -->
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="380dp"
         android:layout_height="170dp"
         android:background="@drawable/room_code_icon_fully_blank"
+        android:elevation="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:elevation="10dp">
+        app:layout_constraintTop_toTopOf="parent">
 
         <!-- Контейнер для текста (код комнаты) -->
         <LinearLayout
@@ -68,10 +97,10 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:backgroundTint="@color/pinkwhite"
+            android:text="Начать игру"
             android:textColor="@color/red"
             android:textSize="16dp"
             android:textStyle="bold"
-            android:text="Начать игру"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

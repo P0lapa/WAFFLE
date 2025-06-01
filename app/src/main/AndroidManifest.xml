@@ -36,12 +36,16 @@
         <activity
             android:name=".CardsActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="true">
+        </activity>
+<!--        <activity-->
+<!--            android:name=".MainActivityGame"-->
+<!--            android:screenOrientation="sensorLandscape"-->
+<!--            android:configChanges="orientation|screenSize|keyboardHidden">-->
+<!--        </activity>-->
     </application>
 
 </manifest>

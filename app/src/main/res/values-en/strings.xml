@@ -1,0 +1,15 @@
+<resources>
+        <string name="app_name">WAFFLE</string>
+        <string name="info">Information</string>
+    <string name="settings">Настройки</string>
+        <string name="interface_language">Interface language:</string>
+        <string name="select_language">Select language</string>
+        <string-array name="lang_display_names">
+            <item>English</item>
+            <item>Русский</item>
+        </string-array>
+        <string-array name="lang_codes">
+            <item>en</item>
+            <item>ru</item>
+        </string-array>
+</resources>

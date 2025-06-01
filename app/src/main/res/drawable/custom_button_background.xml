@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/pinkwhite"
+    android:radius="20dp">  <!-- Уменьшите этот радиус! -->
+
+    <!-- Фон кнопки (обычный shape) -->
+<item>
+<shape android:shape="rectangle">
+    <solid android:color="?attr/selectableItemBackgroundBorderless" />
+    <corners android:radius="8dp" />  <!-- Радиус скругления кнопки -->
+</shape>
+</item>
+    </ripple>
