@@ -1,0 +1,15 @@
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/list_item_text"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    android:textSize="30sp"
+    android:fontFamily="@font/blackberry_normal"
+    android:textColor="@color/white"
+    android:background="@drawable/list_item_background"
+    android:strokeColor="@color/black"
+    android:strokeWidth="1"
+    android:divider="@color/black"
+    android:dividerHeight="1dp"
+    />
