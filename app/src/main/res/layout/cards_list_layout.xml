@@ -52,11 +52,11 @@
             />
 
         <Button
-            android:id="@+id/deleteItemButton"
+            android:id="@+id/deleteGroupButton"
             style="@style/CustomButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Удалить Карту"
+            android:text="Удалить Набор"
             android:textSize="34sp" />
 
         <Button
