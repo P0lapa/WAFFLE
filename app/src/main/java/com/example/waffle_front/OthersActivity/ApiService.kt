@@ -1,14 +1,12 @@
 package com.example.waffle_front.OthersActivity
 
 
-import okhttp3.ResponseBody
+import kotlinx.serialization.Serializable
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.Path
-
-import kotlinx.serialization.Serializable
 
 interface ApiService {
     @Headers("Content-Type: application/json")
@@ -20,12 +18,12 @@ interface ApiService {
     fun joinRoom(
         @Path("roomId") roomId: String,
         @Body login: String
-    ): Call<PlayerResponse> // Предположим, что сервер возвращает информацию о игроке
+    ): Call<PlayerResponse>
 
-//    @POST("/rooms/{roomId}/start ") //начать игру
-//    fun startGame(
-//        @Path("/start")
-//    )
+    @POST("/rooms/{roomId}/cards/situation/change")
+    fun changeSituationCard(
+        @Path("roomId") roomId: String
+    ): Call<SituationChangeResponse> //Возвращает 1, хотя фронт не умеет обрабатывать такое
 
 }
 
@@ -53,5 +51,10 @@ data class PlayerResponse(
     val roleCards: List<String>? = null,
     val moodCards: List<String>? = null,
     val actionCards: List<String>? = null
+)
+//Смена карты ситуации
+@Serializable
+data class SituationChangeResponse(
+    val success: Boolean
 )
 

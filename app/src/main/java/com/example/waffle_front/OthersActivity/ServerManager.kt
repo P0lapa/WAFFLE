@@ -13,7 +13,12 @@ class ServerManager(private val context: Context) {  // Передаём Context
     }
 
     interface JoinRoomCallback {
-        fun onSuccess(roomCode: String)
+        fun onSuccess(roomId: String)
+        fun onError(errorMessage: String)
+    }
+
+    interface ChangeSituationCallback {
+        fun onSuccess(successMessage: String)
         fun onError(errorMessage: String)
     }
 
@@ -66,6 +71,31 @@ class ServerManager(private val context: Context) {  // Передаём Context
             }
 
             override fun onFailure(call: Call<PlayerResponse>, t: Throwable) {
+                callback.onError("Ошибка сети: ${t.message}")
+            }
+        })
+    }
+
+    fun changeSituationCard(roomId: String, callback: ChangeSituationCallback) {
+        val api = RetrofitClient.instance
+        api.changeSituationCard(roomId).enqueue(object : Callback<SituationChangeResponse> {
+            override fun onResponse(
+                call: Call<SituationChangeResponse>,
+                response: Response<SituationChangeResponse>
+            ) {
+                if (response.isSuccessful) {
+                    val body = response.body()
+                    if (body != null && body.success) {
+                        callback.onSuccess("Карта ситуации была сменена")
+                    } else {
+                        callback.onError("Карта ситуации НЕ была сменена")
+                    }
+                } else {
+                    callback.onError("Ошибка: ${response.code()} ${response.message()}")
+                }
+            }
+
+            override fun onFailure(call: Call<SituationChangeResponse>, t: Throwable) {
                 callback.onError("Ошибка сети: ${t.message}")
             }
         })

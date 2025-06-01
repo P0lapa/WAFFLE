@@ -52,7 +52,7 @@
 
     <!-- Основное окно с кодом комнаты -->
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+        android:id="@+id/showRoomCodeWidget"
         android:layout_width="380dp"
         android:layout_height="170dp"
         android:background="@drawable/room_code_icon_fully_blank"

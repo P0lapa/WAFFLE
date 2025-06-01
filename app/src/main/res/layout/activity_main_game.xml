@@ -11,16 +11,6 @@
 
     <!-- Карточка ситуации (левый верхний угол) -->
     <!-- Кнопка смены карточки (только для создателя) -->
-<!--    <ImageButton-->
-<!--        android:id="@+id/changeSituationButton"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="8dp"-->
-
-<!--        android:src="@drawable/swap_icon_symbol_version"-->
-<!--        android:background="?selectableItemBackgroundBorderless"-->
-<!--        app:layout_constraintStart_toEndOf="@id/situationCardButton"-->
-<!--        app:layout_constraintTop_toTopOf="@id/situationCardButton" />-->
 
 
     <FrameLayout
@@ -56,25 +46,20 @@
             android:focusable="false" />
     </FrameLayout>
 
+
     <LinearLayout
         android:id="@+id/situationCardModal"
         android:layout_width="400dp"
         android:layout_height="300dp"
         android:orientation="vertical"
         android:background="@drawable/sit"
-        android:visibility="gone"
         android:elevation="25dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-<!--        <ImageView-->
-<!--            android:id="@+id/modalCardImage"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="200dp"-->
-<!--            android:scaleType="centerCrop"-->
-<!--            android:src="@drawable/sit"/>-->
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintCircleRadius="5dp">
 
         <TextView
             android:id="@+id/situationTextModal"
@@ -84,17 +69,26 @@
             android:layout_margin="80dp"
             android:textSize="40sp"
             android:textColor="#000"/>
-
-<!--        <Button-->
-<!--            android:id="@+id/closeModalButton"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center_horizontal"-->
-<!--            android:layout_marginBottom="16dp"-->
-<!--            android:text="Закрыть"/>-->
     </LinearLayout>
 
     <!-- Затемнение фона (у вас уже есть) -->
+
+    <ImageButton
+        android:id="@+id/changeSituationButton"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:elevation="30dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/swap_icon_symbol_version"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.750"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:onClick="onRotateButtonClick"
+        android:visibility="gone"/>
+
     <View
         android:id="@+id/dimBackgroundMain"
         android:layout_width="match_parent"

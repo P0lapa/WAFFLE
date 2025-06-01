@@ -16,6 +16,9 @@ object GameRepository {
     private val _gameStarted = MutableLiveData<GameStartedEvent>()
     val gameStarted: LiveData<GameStartedEvent> = _gameStarted
 
+    private val _currentSituationCard = MutableLiveData<SituationCard>()
+    val currentSituationCard: LiveData<SituationCard> = _currentSituationCard
+
     fun handleWebSocketEvent(payload: String) {
         try {
             val root = Json.parseToJsonElement(payload).jsonObject
@@ -34,11 +37,21 @@ object GameRepository {
                     val newPlayer = event.body.playerData // Используем новый класс
                     _players.postValue(_players.value?.plus(newPlayer) ?: listOf(newPlayer))
                 }
+                "SITUATION_CARD_CHANGED" -> {
+                    val event = Json.decodeFromString<SituationCardChangedEvent>(payload)
+                    handleSituationCardChanged(event)
+                }
                 else -> Log.d("GameRepo", "Unknown event: $msg")
+
             }
         } catch (e: Exception) {
             Log.e("GameRepo", "Parse error: ${e.message}\nPayload: $payload")
         }
+    }
+
+    private fun handleSituationCardChanged(event: SituationCardChangedEvent) {
+        _currentSituationCard.postValue(event.body.newCard)
+        Log.d("GameRepo", "Situation card changed to: ${event.body.newCard.content}")
     }
 }
 
@@ -87,4 +100,15 @@ data class PlayerData(
 data class ContentCard(
     val id: String,
     val content: String
+)
+
+@Serializable
+data class SituationCardChangedEvent(
+    val message: String,
+    val body: SituationCardChangedBody
+)
+
+@Serializable
+data class SituationCardChangedBody(
+    val newCard: SituationCard
 )
