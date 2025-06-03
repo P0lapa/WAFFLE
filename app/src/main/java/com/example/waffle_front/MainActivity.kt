@@ -137,7 +137,7 @@ class MainActivity : AppCompatActivity() {
             val numberOfCards = cardsInput.text.toString().toIntOrNull() ?: 6
 
             val settings = GameSettings(
-                creatorLogin = "Petya",
+                creatorLogin = "Volodya",
                 cardsPerPlayer = numberOfCards,
                 situationCards = situationCards,
                 roleCards = roleCards,
@@ -179,15 +179,15 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
             val serverManager = ServerManager(this)
-            serverManager.joinRoom(roomCode, login, object : ServerManager.JoinRoomCallback {
-                override fun onSuccess(roomCode: String) {
+            serverManager.joinRoom(this, roomCode, login, object : ServerManager.JoinRoomCallback {
+                override fun onSuccess(roomId: String) {
                     Toast.makeText(
                         this@MainActivity,
-                        "Вы присоединились к комнате $roomCode",
+                        "Вы присоединились к комнате $roomId",
                         Toast.LENGTH_SHORT
                     ).show()
                     val intent = Intent(this@MainActivity, MainActivityGame::class.java).apply {
-                        putExtra("room_code", roomCode)
+                        putExtra("room_code", roomId)
                         putExtra("force_orientation", "landscape")
                     }
                     startActivity(intent)
