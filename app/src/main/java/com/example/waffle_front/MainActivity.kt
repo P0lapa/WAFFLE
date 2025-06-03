@@ -14,6 +14,7 @@ import com.example.waffle_front.OthersActivity.GameSettings
 import com.example.waffle_front.OthersActivity.ServerManager
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
@@ -105,13 +106,43 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        fun readCardsFromFile(fileName: Int): List<String> {
+        fun readCardsFromFile(baseFileName: Int, fileName: String, groupsIndexes: List<Int>): List<String> {
             val cards = mutableListOf<String>()
-            val inputStream = resources.openRawResource(fileName)
-            val reader = BufferedReader(InputStreamReader(inputStream))
-            reader.useLines { lines ->
-                lines.forEach { line ->
-                    cards.add(line)
+            val file = File(filesDir, fileName)
+            if (file.exists()){
+                try {
+                    val inputStream = openFileInput(fileName)
+                    val jsonString = inputStream.bufferedReader().use { it.readText() }
+                    inputStream.close()
+
+                    val jsonObject = JSONObject(jsonString)
+                    val allGroups = jsonObject.keys().asSequence().toList()
+
+                    val indexesToSelect = if (groupsIndexes.isEmpty()) allGroups.indices.toList() else groupsIndexes
+
+                    indexesToSelect.forEach { index ->
+                        if (index in allGroups.indices) {
+                            val group = allGroups[index]
+                            val jsonArray = jsonObject.getJSONArray(group)
+
+                            for (i in 0 until jsonArray.length()) {
+                                cards.add(jsonArray.getString(i))
+                            }
+                        }
+                    }
+//                    Toast.makeText(this, "Выбранные данные успешно загружены из $fileName", Toast.LENGTH_SHORT).show()
+                } catch (e: Exception) {
+                    Toast.makeText(this, "Ошибка при загрузке данных: ${e.message}", Toast.LENGTH_SHORT).show()
+                    e.printStackTrace()
+                }
+            }
+            else{
+                val inputStream = resources.openRawResource(baseFileName)
+                val reader = BufferedReader(InputStreamReader(inputStream))
+                reader.useLines { lines ->
+                    lines.forEach { line ->
+                        cards.add(line)
+                    }
                 }
             }
             return cards
@@ -129,10 +160,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         createGameButton.setOnClickListener {
-            val situationCards = readCardsFromFile(R.raw.situation_cards)
-            val roleCards = readCardsFromFile(R.raw.role_cards)
-            val moodCards = readCardsFromFile(R.raw.mood_cards)
-            val actionCards = readCardsFromFile(R.raw.action_cards)
+            val situationCards = readCardsFromFile(R.raw.situation_cards, "situation_cards.json", mutableListOf<Int>())
+            val roleCards = readCardsFromFile(R.raw.role_cards, "role_cards.json", mutableListOf<Int>())
+            val moodCards = readCardsFromFile(R.raw.mood_cards, "mood_card.json", mutableListOf<Int>())
+            val actionCards = readCardsFromFile(R.raw.action_cards, "action_cards.json", mutableListOf<Int>())
             val cardsInput: EditText = findViewById(R.id.cardsPerPlayerInput)
             val numberOfCards = cardsInput.text.toString().toIntOrNull() ?: 6
 

@@ -205,8 +205,7 @@ class CardsActivity: AppCompatActivity() {
 
                         listItem[group] = items // Записываем соответствующие элементы в карту
                     }
-
-                    Toast.makeText(this, "Данные успешно загружены из $cardFileName", Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(this, "Данные успешно загружены из $cardFileName", Toast.LENGTH_SHORT).show()
                 } catch (e: Exception) {
                     Toast.makeText(this, "Ошибка при загрузке данных: ${e.message}", Toast.LENGTH_SHORT).show()
                     e.printStackTrace()
@@ -224,6 +223,7 @@ class CardsActivity: AppCompatActivity() {
                 }
                 listItem[listGroup[0]] = cards
             }
+            listAdapter.notifyDataSetChanged()
         }
 
 

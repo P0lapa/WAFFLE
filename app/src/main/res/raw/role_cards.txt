@@ -1,5 +1,31 @@
-role 1
-role 2
-role 3
-role 4
-role 5
+Teacher
+Writer/ poet
+Mayor
+Tramp
+Elderly person
+Police officer
+Postman or postwoman
+Famous singer
+Retired sportsman/ sportswoman
+Baker
+Man out of work
+Busy housewife
+Wealthy businessman/ businesswoman
+Diligent child
+German delegate
+Novelist
+Correspondent 
+Miserable boy of 9 years
+Doctor
+Surgeon 
+Medical student 
+Chemist
+Dentist
+Great pianist
+Bourgeois
+Maid
+Actress/actor
+Fisherman
+Plumber
+Circus acrobat
+Priest
