@@ -45,6 +45,7 @@
             <TextView
                 android:id="@+id/cardsPerPlayerLabel"
                 android:layout_width="wrap_content"
+                style="@style/CustomButtonStyle1"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:text="Кол-во карт на игрока:"
@@ -65,6 +66,68 @@
                 android:text="6"
                 android:textSize="20sp" />
         </LinearLayout>
+
+<!--        <Button-->
+<!--            android:id="@+id/createGameButton"-->
+<!--            style="@style/CustomButtonStyle"-->
+<!--            android:layout_width="200dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Создать"-->
+<!--            android:textAlignment="center"-->
+<!--            android:textSize="30sp" />-->
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Наборы ситуаций"
+            android:textAlignment="center"
+            style="@style/CustomButtonStyle"
+            android:textSize="25sp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerSituations"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Наборы настроений"
+            android:textAlignment="center"
+            style="@style/CustomButtonStyle"
+            android:textSize="25sp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerMoods"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Наборы ролей"
+            android:textAlignment="center"
+            style="@style/CustomButtonStyle"
+            android:textSize="25sp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerRoles"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Наборы действий"
+            android:textAlignment="center"
+            style="@style/CustomButtonStyle"
+            android:textSize="25sp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerActions"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"/>
+
 
         <Button
             android:id="@+id/createGameButton"

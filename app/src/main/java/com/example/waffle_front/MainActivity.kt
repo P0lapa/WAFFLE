@@ -10,6 +10,10 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.waffle_front.OthersActivity.CardSet
+import com.example.waffle_front.OthersActivity.CardSetAdapter
 import com.example.waffle_front.OthersActivity.GameSettings
 import com.example.waffle_front.OthersActivity.ServerManager
 import kotlinx.serialization.encodeToString
@@ -52,6 +56,19 @@ class MainActivity : AppCompatActivity() {
         val joinGameButton: Button = findViewById(R.id.joinGameButton)
         val createGameSettingsButton: Button = findViewById(R.id.createGameSettingsButton)
         val findGameButton: Button = findViewById(R.id.findGameButton)
+
+        // Элементы выбора наборов для игры
+        val recyclerSituations = findViewById<RecyclerView>(R.id.recyclerSituations)
+        val recyclerMoods = findViewById<RecyclerView>(R.id.recyclerMoods)
+        val recyclerRoles = findViewById<RecyclerView>(R.id.recyclerRoles)
+        val recyclerActions = findViewById<RecyclerView>(R.id.recyclerActions)
+
+        // Списки индексов выбраных наборов для игры
+        val selectedSituationsGroups = mutableListOf<Int>()
+        val selectedMoodsGroups = mutableListOf<Int>()
+        val selectedRolesGroups = mutableListOf<Int>()
+        val selectedActionsGroups = mutableListOf<Int>()
+
 
         // Обработчик для кнопки "Играть"
         playButton.setOnClickListener {
@@ -154,16 +171,95 @@ class MainActivity : AppCompatActivity() {
             joinGameLayout.visibility=View.VISIBLE
         }
 
+        fun loadGroupsFromJson(fileName: String): List<String> {
+            val groups = mutableListOf<String>()
+            val file = File(filesDir, fileName)
+            if (file.exists()){
+                try {
+                    val inputStream = openFileInput(fileName)
+                    val jsonString = inputStream.bufferedReader().use { it.readText() }
+                    inputStream.close()
+
+                    val jsonObject = JSONObject(jsonString)
+
+                    jsonObject.keys().forEach { group ->
+                        groups.add(group) // Добавляем название группы в список
+                    }
+
+                } catch (e: Exception) {
+                    Toast.makeText(this, "Ошибка при загрузке групп: ${e.message}", Toast.LENGTH_SHORT).show()
+                    e.printStackTrace()
+                }
+            }
+            else {
+                groups.add("Базовый набор")
+            }
+
+
+            return groups
+        }
+
         createGameSettingsButton.setOnClickListener {
+            val situationGroups = loadGroupsFromJson("situation_cards.json")
+            val moodGroups = loadGroupsFromJson("mood_cards.json")
+            val roleGroups = loadGroupsFromJson("role_cards.json")
+            val actionGroups = loadGroupsFromJson("action_cards.json")
+
+            val situations = situationGroups.map { CardSet(it, false) }
+            val moods = moodGroups.map { CardSet(it, false) }
+            val roles = roleGroups.map { CardSet(it, false) }
+            val actions = actionGroups.map { CardSet(it, false) }
+
+            val adapterSituations = CardSetAdapter(situations) { index, isSelected ->
+                if (isSelected) {
+                    if (!selectedSituationsGroups.contains(index)) selectedSituationsGroups.add(index)
+                } else {
+                    selectedSituationsGroups.remove(index)
+                }
+            }
+            val adapterMoods = CardSetAdapter(moods) { index, isSelected ->
+                if (isSelected) {
+                    if (!selectedMoodsGroups.contains(index)) selectedMoodsGroups.add(index)
+                } else {
+                    selectedMoodsGroups.remove(index)
+                }
+            }
+            val adapterRoles = CardSetAdapter(roles) { index, isSelected ->
+                if (isSelected) {
+                    if (!selectedRolesGroups.contains(index)) selectedRolesGroups.add(index)
+                } else {
+                    selectedRolesGroups.remove(index)
+                }
+            }
+            val adapterActions = CardSetAdapter(actions) { index, isSelected ->
+                if (isSelected) {
+                    if (!selectedActionsGroups.contains(index)) selectedActionsGroups.add(index)
+                } else {
+                    selectedActionsGroups.remove(index)
+                }
+            }
+
+            recyclerSituations.adapter = adapterSituations
+            recyclerSituations.layoutManager = LinearLayoutManager(this)
+
+            recyclerMoods.adapter = adapterMoods
+            recyclerMoods.layoutManager = LinearLayoutManager(this)
+
+            recyclerRoles.adapter = adapterRoles
+            recyclerRoles.layoutManager = LinearLayoutManager(this)
+
+            recyclerActions.adapter = adapterActions
+            recyclerActions.layoutManager = LinearLayoutManager(this)
+
             dimBackground.visibility = View.VISIBLE
             createGameSettingsLayout.visibility=View.VISIBLE
         }
 
         createGameButton.setOnClickListener {
-            val situationCards = readCardsFromFile(R.raw.situation_cards, "situation_cards.json", mutableListOf<Int>())
-            val roleCards = readCardsFromFile(R.raw.role_cards, "role_cards.json", mutableListOf<Int>())
-            val moodCards = readCardsFromFile(R.raw.mood_cards, "mood_card.json", mutableListOf<Int>())
-            val actionCards = readCardsFromFile(R.raw.action_cards, "action_cards.json", mutableListOf<Int>())
+            val situationCards = readCardsFromFile(R.raw.situation_cards, "situation_cards.json", selectedSituationsGroups)
+            val roleCards = readCardsFromFile(R.raw.role_cards, "role_cards.json", selectedRolesGroups)
+            val moodCards = readCardsFromFile(R.raw.mood_cards, "mood_card.json", selectedMoodsGroups)
+            val actionCards = readCardsFromFile(R.raw.action_cards, "action_cards.json", selectedActionsGroups)
             val cardsInput: EditText = findViewById(R.id.cardsPerPlayerInput)
             val numberOfCards = cardsInput.text.toString().toIntOrNull() ?: 6
 
