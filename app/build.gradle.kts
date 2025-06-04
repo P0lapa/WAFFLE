@@ -87,4 +87,7 @@ dependencies {
     implementation("io.reactivex.rxjava2:rxjava:2.2.21")
     implementation("io.reactivex.rxjava2:rxandroid:2.1.1")
     implementation (libs.glide)
+    // 1. в build.gradle (обычно уже есть зависимость на retrofit и converter-gson), добавим:
+    implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
+
 }

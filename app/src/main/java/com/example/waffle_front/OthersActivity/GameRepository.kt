@@ -25,6 +25,9 @@ object GameRepository {
     private val _droppedCards = MutableLiveData<List<ContentCard>>(emptyList())
     val droppedCards: LiveData<List<ContentCard>> = _droppedCards
 
+    private val _gameStopped = MutableLiveData<Boolean>(false)
+    val gameStopped: LiveData<Boolean> = _gameStopped
+
     fun handleWebSocketEvent(payload: String) {
         try {
             val root = Json.parseToJsonElement(payload).jsonObject
@@ -75,6 +78,16 @@ object GameRepository {
                     // установим флаг, чтобы все подписчики узнали, что колода пустая
                     _deckIsOver.postValue(true)
                 }
+                "PLAYER_LEFT" -> {
+                    val event = Json.decodeFromString<PlayerLeftEvent>(payload)
+                    // Удаляем игрока по login
+                    val updated = _players.value
+                        ?.filter { it.login != event.body.playerLogin }
+                    _players.postValue(updated ?: emptyList())
+                }
+                "GAME_STOPPED" -> {
+                    _gameStopped.postValue(true)
+                }
                 else -> Log.d("GameRepo", "Unknown event: $msg")
 
             }
@@ -106,6 +119,34 @@ object GameRepository {
             }
             ?: listOf(newPlayer)
         _players.postValue(updatedList)
+    }
+
+    /**
+     * Обновляет у нужного игрока только роль (roleCard),
+     * оставляя остальные поля без изменений.
+     */
+    fun updatePlayerRole(id: String, newRoleContent: String) {
+        val updatedList = _players.value
+            ?.map { player ->
+                if (player.playerId == id) {
+                    player.copy(roleCard = ContentCard(newRoleContent, newRoleContent))
+                } else player
+            }
+        _players.postValue(updatedList ?: emptyList())
+    }
+
+    /**
+     * Обновляет у нужного игрока только настроение (moodCard),
+     * оставляя остальные поля без изменений.
+     */
+    fun updatePlayerMood(id: String, newMoodContent: String) {
+        val updatedList = _players.value
+            ?.map { player ->
+                if (player.playerId == id) {
+                    player.copy(moodCard = ContentCard(newMoodContent, newMoodContent))
+                } else player
+            }
+        _players.postValue(updatedList ?: emptyList())
     }
 }
 
@@ -174,4 +215,16 @@ data class ActionCardDroppedEvent(
 @Serializable
 data class ActionCardDroppedBody(
     val droppedCard: ContentCard
+)
+
+@Serializable
+data class PlayerLeftEvent(
+    val message: String,
+    val body: PlayerLeftBody
+)
+
+@Serializable
+data class PlayerLeftBody(
+    val playersCount: Int,
+    val playerLogin: String
 )

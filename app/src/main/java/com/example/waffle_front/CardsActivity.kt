@@ -1,7 +1,6 @@
 package com.example.waffle_front
 
 
-import android.content.ComponentName
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,17 +10,14 @@ import android.widget.BaseExpandableListAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ExpandableListView
-import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintSet.Layout
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.File
-import java.io.InputStream
 import java.io.InputStreamReader
 
 class CardsActivity: AppCompatActivity() {

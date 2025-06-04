@@ -1,6 +1,7 @@
 package com.example.waffle_front.OthersActivity
 
 import android.content.Context
+import android.util.Log
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -34,6 +35,26 @@ class ServerManager(private val context: Context) {  // Передаём Context
 
     interface DrawActionCallback {
         fun onSuccess(newPlayerData: PlayerData)
+        fun onError(errorMessage: String)
+    }
+
+    interface ChangeRoleCallback {
+        fun onSuccess(updatedPlayer: String?)
+        fun onError(errorMessage: String)
+    }
+
+    interface ChangeMoodCallback {
+        fun onSuccess(updatedPlayer: String?)
+        fun onError(errorMessage: String)
+    }
+
+    interface LeaveRoomCallback {
+        fun onSuccess()
+        fun onError(errorMessage: String)
+    }
+
+    interface StopGameCallback {
+        fun onSuccess()
         fun onError(errorMessage: String)
     }
 
@@ -71,8 +92,6 @@ class ServerManager(private val context: Context) {  // Передаём Context
                         val prefs = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
                         prefs.edit().putString("my-login", playerResponse.login).apply()
                         prefs.edit().putString("my-id", playerResponse.playerId).apply()
-
-
                         callback.onSuccess(roomId)
                     } else {
                         callback.onError("пустой ответ сервера")
@@ -226,6 +245,114 @@ class ServerManager(private val context: Context) {  // Передаём Context
 
             override fun onFailure(call: Call<Player>, t: Throwable) {
                 callback.onError("Ошибка сети при взятии карты: ${t.message}")
+            }
+        })
+    }
+
+
+    fun changeRoleCard(
+        roomId: String,
+        playerId: String,
+        callback: ChangeRoleCallback
+    ) {
+        val api = RetrofitClient.instance
+        api.changeRoleCard(roomId, playerId).enqueue(object : Callback<Player> {
+            override fun onResponse(
+                call: Call<Player>,
+                response: Response<Player>
+            ) {
+                if (!response.isSuccessful) {
+                    callback.onError("Не удалось сменить роль. Код: ${response.code()}")
+                    return
+                }
+                val body = response.body()
+                if (body == null) {
+                    callback.onError("Пустой ответ сервера при смене роли")
+                    return
+                }
+
+                // Предположим, что server возвращает roleCards = ["новый текст роли"]
+                val newRoleList = body.role?.text
+                val newRole = newRoleList?.firstOrNull()
+                if (newRole == null) {
+                    callback.onError("В ответе нет новой роли")
+                    return
+                }
+
+                // Обновляем локальный репозиторий по id
+                GameRepository.updatePlayerRole(body.id, newRoleList.toString())
+                Log.d("НОВАЯ КАРТА", newRoleList)
+                callback.onSuccess(newRole.toString())
+            }
+
+            override fun onFailure(call: Call<Player>, t: Throwable) {
+                callback.onError("Ошибка сети при смене роли: ${t.message}")
+            }
+        })
+    }
+
+    /**
+     * Запрашивает у сервера новое настроение для указанного игрока.
+     * После успешного ответа обновляет настроение в GameRepository.
+     */
+    fun changeMoodCard(
+        roomId: String,
+        playerId: String,
+        callback: ChangeMoodCallback
+    ) {
+        val api = RetrofitClient.instance
+        api.changeMoodCard(roomId, playerId).enqueue(object : Callback<Player> {
+            override fun onResponse(
+                call: Call<Player>,
+                response: Response<Player>
+            ) {
+                if (!response.isSuccessful) {
+                    callback.onError("Не удалось сменить настроение. Код: ${response.code()}")
+                    return
+                }
+                val body = response.body()
+                if (body == null) {
+                    callback.onError("Пустой ответ сервера при смене настроения")
+                    return
+                }
+
+                // Предположим, что server возвращает moodCards = ["новый текст настроения"]
+                val newMoodList = body.mood?.text
+                val newMood = newMoodList?.firstOrNull()
+                if (newMood == null) {
+                    callback.onError("В ответе нет нового настроения")
+                    return
+                }
+
+                // Обновляем локальный репозиторий по login
+                GameRepository.updatePlayerMood(body.id, newMoodList.toString())
+                Log.d("НОВАЯ КАРТА", newMoodList)
+                callback.onSuccess(newMood.toString())
+            }
+
+            override fun onFailure(call: Call<Player>, t: Throwable) {
+                callback.onError("Ошибка сети при смене настроения: ${t.message}")
+            }
+        })
+    }
+
+    fun leaveRoom(
+        roomId: String,
+        playerId: String,
+        callback: LeaveRoomCallback
+    ) {
+        val api = RetrofitClient.instance
+        api.leaveRoom(roomId, playerId).enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    callback.onSuccess()
+                } else {
+                    callback.onError("Не удалось выйти из комнаты. Код: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                callback.onError("Ошибка сети при выходе из комнаты: ${t.message}")
             }
         })
     }

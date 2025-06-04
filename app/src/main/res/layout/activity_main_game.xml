@@ -9,70 +9,111 @@
     tools:context=".MainActivityGame"
     android:background="@drawable/waffle_game_field_screen">
 
-    <!-- Карточка ситуации (левый верхний угол) -->
-    <!-- Кнопка смены карточки (только для создателя) -->
-
-
     <FrameLayout
         android:id="@+id/situationCard"
-        android:layout_width="140dp"
-        android:layout_height="110dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:elevation="10dp"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.02"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.02">
+        app:layout_constraintVertical_bias="0.0"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        >
 
         <ImageButton
             android:id="@+id/situationCardButton"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/sit"
+            android:layout_width="150dp"
+            android:layout_height="75dp"
+            android:background="@drawable/popup_icon_situation"
             android:contentDescription="Карточка ситуации"
             android:scaleType="centerCrop" />
-
-        <TextView
-            android:id="@+id/situationText"
-            style="@style/CustomButtonStyle1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="10dp"
-            android:textColor="#000"
-            android:textSize="20sp"
-            android:clickable="false"
-            android:focusable="false" />
     </FrameLayout>
 
+        <FrameLayout
+            android:id="@+id/roleAndMoodCard"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:elevation="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.00"
+            android:clipChildren="false"
+            android:clipToPadding="false">
 
-    <LinearLayout
-        android:id="@+id/situationCardModal"
-        android:layout_width="400dp"
-        android:layout_height="300dp"
-        android:orientation="vertical"
-        android:background="@drawable/sit"
-        android:elevation="25dp"
+            <ImageButton
+                android:id="@+id/roleAndMoodCardButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/popup_icon_role_state"
+                android:contentDescription="Показать карты роли и настроения"
+                android:scaleType="centerCrop" />
+        </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/closeFrame"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:elevation="10dp"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/roleAndMoodCard"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintCircleRadius="5dp">
+        android:rotation="45">
 
-        <TextView
-            android:id="@+id/situationTextModal"
-            style="@style/CustomButtonStyle1"
+        <ImageButton
+            android:id="@+id/closeButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="80dp"
-            android:textSize="40sp"
-            android:textColor="#000"/>
-    </LinearLayout>
+            android:layout_height="match_parent"
+            android:background="@drawable/close_icon_symbol_version"
+            android:contentDescription="Закрыть игру"
+            android:scaleType="centerCrop" />
+    </FrameLayout>
 
-    <!-- Затемнение фона (у вас уже есть) -->
+        <FrameLayout
+            android:id="@+id/situationCardModal"
+            android:layout_width="400dp"
+            android:layout_height="300dp"
+            android:orientation="vertical"
+            android:background="@drawable/roundedcard_bg"
+            android:elevation="25dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintCircleRadius="5dp"
+            android:clipToOutline="true">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/sit"
+                android:contentDescription="Карточка ситуации"
+                android:scaleType="centerCrop" />
+
+            <TextView
+                android:id="@+id/situationTextModal"
+                style="@style/CustomButtonStyle1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="35dp"
+                android:layout_marginHorizontal="12dp"
+                android:textSize="25sp"
+                android:layout_gravity="center_vertical|end"
+                android:textColor="#000"/>
+
+
+        </FrameLayout>
 
     <ImageButton
         android:id="@+id/changeSituationButton"
@@ -80,24 +121,29 @@
         android:layout_height="90dp"
         android:background="?selectableItemBackgroundBorderless"
         android:elevation="30dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/swap_icon_symbol_version"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.750"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:onClick="onRotateButtonClick"
-        android:visibility="gone"/>
+        android:scaleType="fitCenter"
+        android:visibility="gone"
+        android:src="@drawable/swap_icon_symbol_version"
+        app:layout_constraintBottom_toBottomOf="@+id/situationCardModal"
+        app:layout_constraintEnd_toEndOf="@+id/situationCardModal"
+        app:layout_constraintStart_toStartOf="@+id/situationCardModal"
+        app:layout_constraintTop_toTopOf="@+id/situationCardModal"
+        app:layout_constraintVertical_bias="0.75"
+        app:layout_constraintHorizontal_bias="1.15"/>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/playersRecyclerView"
         android:layout_width="500dp"
         android:layout_height="100dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        android:clipChildren="true"
+        android:clipToPadding="true"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/actionsRecyclerView"
@@ -107,17 +153,111 @@
         android:elevation="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        android:clipChildren="true"
+        android:clipToPadding="true"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/tableRecyclerView"
         android:layout_width="wrap_content"
         android:layout_height="130dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintTop_toBottomOf="@id/playersRecyclerView"
+        app:layout_constraintBottom_toTopOf="@id/actionsRecyclerView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
+    <FrameLayout
+        android:id="@+id/deckFrame"
+        android:layout_width="130dp"
+        android:layout_height="175dp"
+        android:orientation="vertical"
+        android:background="@drawable/roundedcard_bg"
+        android:elevation="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.924"
+        android:clipToOutline="true"
+        android:rotation="280">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/zadnik"
+        android:contentDescription="Колода"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.92"/>
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/deckFrame2"
+        android:layout_width="130dp"
+        android:layout_height="175dp"
+        android:orientation="vertical"
+        android:background="@drawable/roundedcard_bg"
+        android:elevation="1dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.92"
+        android:clipToOutline="true"
+        android:rotation="15"
+        >
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/zadnik"
+        android:contentDescription="Сброшенная Колода"/>
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/deckFrame3"
+        android:layout_width="130dp"
+        android:layout_height="175dp"
+        android:orientation="vertical"
+        android:background="@drawable/roundedcard_bg"
+        android:elevation="3dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.92"
+        android:clipToOutline="true"
+        android:rotation="57"
+        >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/zadnik"
+            android:contentDescription="Сброшенная Колода"/>
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/deckFrame4"
+        android:layout_width="130dp"
+        android:layout_height="175dp"
+        android:orientation="vertical"
+        android:elevation="4dp"
+        android:background="@drawable/roundedcard_bg"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.92"
+        android:clipToOutline="true"
+        android:rotation="35"
+        >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/zadnik"
+            android:contentDescription="Сброшенная Колода"/>
+    </FrameLayout>
 
     <View
         android:id="@+id/dimBackgroundMain"
@@ -138,4 +278,8 @@
         layout="@layout/show_room_code_layout"
         android:visibility="gone" />
 
+<!--    карточки роли и настроения-->
+    <include
+        layout="@layout/role_and_mood_layout"
+        android:visibility="gone" />
 </androidx.constraintlayout.widget.ConstraintLayout>

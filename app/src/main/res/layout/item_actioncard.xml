@@ -4,7 +4,8 @@
     android:layout_height="150dp"
     android:orientation="vertical"
     android:gravity="center"
-    android:padding="2dp">
+    android:background="@drawable/roundedcard_bg"
+    android:clipToOutline="true">
 
     <ImageButton
         android:id="@+id/actionCardButton"

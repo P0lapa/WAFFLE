@@ -5,6 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.POST
@@ -15,7 +16,6 @@ interface ApiService {
     @POST("/rooms")
     fun createRoom(@Body settings: GameSettings): Call<CreateRoomResponse>
 
-    @Headers("Content-Type: application/json")
     @POST("/rooms/{roomId}/players")
     fun joinRoom(
         @Path("roomId") roomId: String,
@@ -45,8 +45,23 @@ interface ApiService {
         @Path("playerId") playerId: String
     ): Call<Player>
 
-//    @GET("/rooms/{roomId}/players/{playerId}/cards/role/change") Call<PlayerResponse>
-//    @GET("/rooms/{roomId}/players/{playerId}/cards/mood/change") Call<PlayerResponse>
+    @POST("/rooms/{roomId}/players/{playerId}/cards/role/change")
+    fun changeRoleCard(
+        @Path("roomId") roomId: String,
+        @Path("playerId") playerId: String
+    ): Call<Player>
+
+    @POST("/rooms/{roomId}/players/{playerId}/cards/mood/change")
+    fun changeMoodCard(
+        @Path("roomId") roomId: String,
+        @Path("playerId") playerId: String
+    ): Call<Player>
+
+    @DELETE("/rooms/{roomId}/players/{playerId}")
+    fun leaveRoom(
+        @Path("roomId") roomId: String,
+        @Path("playerId") playerId: String
+    ): Call<Void>
 
 }
 

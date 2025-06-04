@@ -1,0 +1,111 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/roleAndMoodCardModal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:elevation="25dp">
+
+    <FrameLayout
+        android:id="@+id/roleCardModal"
+        android:layout_width="200dp"
+        android:layout_height="250dp"
+        android:orientation="vertical"
+        android:background="@drawable/roundedcard_bg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintCircleRadius="5dp"
+        app:layout_constraintHorizontal_bias=".15"
+        android:clipToOutline="true">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/rol"
+            android:contentDescription="Карточка роли"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/roleTextModal"
+            style="@style/CustomButtonStyle1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="35dp"
+            android:layout_marginHorizontal="15dp"
+            android:textSize="25sp"
+            android:layout_gravity="center_vertical|end"
+            android:textColor="#000"/>
+
+
+    </FrameLayout>
+
+    <ImageButton
+        android:id="@+id/changeRoleButton"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:elevation="30dp"
+        android:onClick="onRotateButtonClick"
+        android:scaleType="fitCenter"
+
+        android:src="@drawable/swap_icon_symbol_version"
+        app:layout_constraintBottom_toBottomOf="@+id/roleCardModal"
+        app:layout_constraintEnd_toEndOf="@+id/roleCardModal"
+        app:layout_constraintStart_toStartOf="@+id/roleCardModal"
+        app:layout_constraintTop_toTopOf="@+id/roleCardModal"
+        app:layout_constraintVertical_bias="0.75"
+        app:layout_constraintHorizontal_bias="1.5"/>
+
+    <FrameLayout
+        android:id="@+id/moodCardModal"
+        android:layout_width="300dp"
+        android:layout_height="250dp"
+        android:background="@drawable/roundedcard_bg"
+        android:clipToOutline="true"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintCircleRadius="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/roleCardModal"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/steyt"
+            android:contentDescription="Карточка настроения"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/moodTextModal"
+            style="@style/CustomButtonStyle1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginHorizontal="12dp"
+            android:layout_marginBottom="35dp"
+            android:textColor="#000"
+            android:textSize="25sp" />
+
+
+    </FrameLayout>
+
+    <ImageButton
+        android:id="@+id/changeMoodButton"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:elevation="30dp"
+        android:onClick="onRotateButtonClick"
+        android:scaleType="fitCenter"
+
+        android:src="@drawable/swap_icon_symbol_version"
+        app:layout_constraintBottom_toBottomOf="@+id/moodCardModal"
+        app:layout_constraintEnd_toEndOf="@+id/moodCardModal"
+        app:layout_constraintStart_toStartOf="@+id/moodCardModal"
+        app:layout_constraintTop_toTopOf="@+id/moodCardModal"
+        app:layout_constraintVertical_bias="0.75"
+        app:layout_constraintHorizontal_bias="1.25"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

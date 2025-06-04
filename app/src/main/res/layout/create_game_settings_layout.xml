@@ -18,10 +18,9 @@
         android:padding="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.444"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.738"
+        app:layout_constraintVertical_bias="0.6"
         android:gravity="center">
 
 
@@ -36,7 +35,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="99dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="5dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -67,6 +66,30 @@
                 android:textSize="20sp" />
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/textNickName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="40dp"
+            android:text="Введите NickName:"
+            android:textColor="#FFFFFF"
+            android:textSize="25sp" />
+
+        <EditText
+            android:id="@+id/nickName"
+            android:layout_width="300dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:background="@drawable/rounded_background_white"
+            android:textColorHint="#808080"
+            android:hint="имя в игре"
+            android:inputType="text"
+            android:padding="5dp"
+            android:text=""
+            android:textColor="@color/brown"
+            android:textSize="20sp" />
+
 <!--        <Button-->
 <!--            android:id="@+id/createGameButton"-->
 <!--            style="@style/CustomButtonStyle"-->
@@ -75,7 +98,13 @@
 <!--            android:text="Создать"-->
 <!--            android:textAlignment="center"-->
 <!--            android:textSize="30sp" />-->
-
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="300dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -87,7 +116,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerSituations"
             android:layout_width="match_parent"
-            android:layout_height="60dp"/>
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -100,7 +129,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerMoods"
             android:layout_width="match_parent"
-            android:layout_height="60dp"/>
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -113,7 +142,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerRoles"
             android:layout_width="match_parent"
-            android:layout_height="60dp"/>
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -126,8 +155,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerActions"
             android:layout_width="match_parent"
-            android:layout_height="60dp"/>
-
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+</ScrollView>
 
         <Button
             android:id="@+id/createGameButton"

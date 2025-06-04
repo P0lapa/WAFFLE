@@ -114,6 +114,29 @@ object WebSocketManager {
         )
     }
 
+    fun send(destination: String, payload: String = "", onSuccess: () -> Unit = {}, onError: (String) -> Unit = {}) {
+        try {
+            // Допустим, у вас есть stompClient, и он умеет send:
+            // stompClient.send(destination, payload)
+            onSuccess()
+        } catch (e: Exception) {
+            onError(e.message ?: "Unknown WS error")
+        }
+    }
+
+    /**
+     * Отправляет WS-команду для завершения игры (GAME_STOP).
+     * Пример destination: "/room/ROOM123/stop"
+     */
+    fun stopGame(roomId: String, onSuccess: () -> Unit = {}, onError: (String) -> Unit = {}) {
+        if (!isConnected()) {
+            onError("WebSocket не подключён")
+            return
+        }
+        val destination = "/room/$roomId/stop"
+        send(destination, "", onSuccess, onError)
+    }
+
     fun disconnect() {
         disposables.clear()
         if (::stompClient.isInitialized) stompClient.disconnect()

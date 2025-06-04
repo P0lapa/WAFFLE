@@ -205,10 +205,10 @@ class MainActivity : AppCompatActivity() {
             val roleGroups = loadGroupsFromJson("role_cards.json")
             val actionGroups = loadGroupsFromJson("action_cards.json")
 
-            val situations = situationGroups.map { CardSet(it, false) }
-            val moods = moodGroups.map { CardSet(it, false) }
-            val roles = roleGroups.map { CardSet(it, false) }
-            val actions = actionGroups.map { CardSet(it, false) }
+            val situations = situationGroups.map { CardSet(it, true) }
+            val moods = moodGroups.map { CardSet(it, true) }
+            val roles = roleGroups.map { CardSet(it, true) }
+            val actions = actionGroups.map { CardSet(it, true) }
 
             val adapterSituations = CardSetAdapter(situations) { index, isSelected ->
                 if (isSelected) {
@@ -263,8 +263,17 @@ class MainActivity : AppCompatActivity() {
             val cardsInput: EditText = findViewById(R.id.cardsPerPlayerInput)
             val numberOfCards = cardsInput.text.toString().toIntOrNull() ?: 6
 
+            val nickName: EditText = findViewById(R.id.nickName)
+            val login: String? = nickName.text.toString().takeIf { it.isNotBlank() }
+//            val enteredLogin:
+
+            if (login == null) {
+                Toast.makeText(this, "Введите nickname", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             val settings = GameSettings(
-                creatorLogin = "Volodya",
+                creatorLogin = "",
                 cardsPerPlayer = numberOfCards,
                 situationCards = situationCards,
                 roleCards = roleCards,
@@ -287,6 +296,7 @@ class MainActivity : AppCompatActivity() {
                         putExtra("is_creator", true)
                         putExtra("force_orientation", "landscape")
                     }
+                    nickName.text.clear()
                     startActivity(intent)
                 }
 
@@ -300,9 +310,16 @@ class MainActivity : AppCompatActivity() {
         findGameButton.setOnClickListener {
             val input: EditText = findViewById(R.id.roomNumber)
             val roomCode = input.text.toString()
-            val login = "Volodya" // Можно заменить на реальный логин из EditText
+            val nickNameToJoin: EditText = findViewById(R.id.nickName)
+            val login: String? = nickNameToJoin.text.toString().takeIf { it.isNotBlank() }
+//            val enteredLogin:
             if (roomCode.isEmpty()) {
                 Toast.makeText(this, "Введите номер комнаты", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (login == null) {
+                Toast.makeText(this, "Введите nickname", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             val serverManager = ServerManager(this)
@@ -317,6 +334,8 @@ class MainActivity : AppCompatActivity() {
                         putExtra("room_code", roomId)
                         putExtra("force_orientation", "landscape")
                     }
+                    nickNameToJoin.text.clear()
+                    input.text.clear()
                     startActivity(intent)
                 }
                 override fun onError(errorMessage: String) {
@@ -335,6 +354,7 @@ class MainActivity : AppCompatActivity() {
             infoLayout.visibility=View.GONE
             createGameSettingsLayout.visibility=View.GONE
             joinGameLayout.visibility=View.GONE
+
         }
 
 

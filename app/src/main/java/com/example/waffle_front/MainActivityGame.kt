@@ -11,8 +11,8 @@ import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.ImageButton
-import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -36,11 +36,21 @@ class MainActivityGame : AppCompatActivity() {
     private lateinit var myLogin: String
     private lateinit var myId: String
     private lateinit var roomId: String
-//    private lateinit var cardsPerPlayer: Int
+    private var cardsPerPlayer = 6
     private lateinit var playersAdapter: PlayersAdapter
     private lateinit var actionsAdapter: ActionCardsAdapter
     private lateinit var serverManager: ServerManager
     private lateinit var tableAdapter: TableAdapter
+
+
+    private var firstPlayerLoad = true
+    private var lastOthersCount = 0
+    private lateinit var roleTextView: TextView
+    private lateinit var moodTextView: TextView
+    private var lastRole: String? = null
+    private var lastMood: String? = null
+    private var droppedCounter = 0
+    private var isCreator: Boolean = false
 
     @SuppressLint("WrongViewCast", "CutPasteId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,7 +63,7 @@ class MainActivityGame : AppCompatActivity() {
         setContentView(R.layout.activity_main_game)
         serverManager = ServerManager(this)
         roomId = intent.getStringExtra("room_code") ?: return
-        val isCreator = intent.getBooleanExtra("is_creator", false)
+        isCreator = intent.getBooleanExtra("is_creator", false)
 
         val roomCodeView: TextView = findViewById(R.id.roomCodeTextView)
         roomCodeView.text = roomId
@@ -77,7 +87,11 @@ class MainActivityGame : AppCompatActivity() {
                     onSuccess = {},
                     onError = { e -> Toast.makeText(this, e, Toast.LENGTH_SHORT).show() }
                 )
+
+
             }
+            val stopGameFrame: FrameLayout = findViewById(R.id.closeFrame)
+            stopGameFrame.visibility = View.VISIBLE
         } else {
             findViewById<View>(R.id.showRoomCodeLayout).visibility = View.VISIBLE
             findViewById<View>(R.id.showRoomCodeWidget).visibility = View.GONE
@@ -85,6 +99,7 @@ class MainActivityGame : AppCompatActivity() {
             myLogin = prefs.getString("my-login", "") ?: ""
             myId =prefs.getString("my-id", "") ?: ""
             observePlayersAfterLogin()
+            getCardsPerPlayer()
         }
 
         setupPlayersRecycler() // инициализация RecyclerView и адаптер
@@ -93,8 +108,36 @@ class MainActivityGame : AppCompatActivity() {
 
         GameRepository.droppedCards.observe(this) { dropped ->
             tableAdapter.submitList(dropped)
-        }
+            val deckFrame2: FrameLayout = findViewById(R.id.deckFrame2)
+            val deckFrame3: FrameLayout = findViewById(R.id.deckFrame3)
+            val deckFrame4: FrameLayout = findViewById(R.id.deckFrame4)
+            if(droppedCounter>3){
+                deckFrame2.visibility = View.VISIBLE
+                if(droppedCounter>4){
+                    deckFrame3.visibility = View.VISIBLE
+                    if(droppedCounter>5){
+                        deckFrame4.visibility = View.VISIBLE
+                    }
+                }
+            }
+            droppedCounter++
 
+        }
+        // Пример кнопки “Выйти из игры”
+//        findViewById<Button>(R.id.closeButton).setOnClickListener {
+//            // Сначала разорвём WS
+//            WebSocketManager.disconnect()
+//            // Затем отправим HTTP DELETE
+//            serverManager.leaveRoom(roomId, myId, object : ServerManager.LeaveRoomCallback {
+//                override fun onSuccess() {
+//                    Toast.makeText(this@MainActivityGame, "Вы вышли из игры", Toast.LENGTH_SHORT).show()
+//                    finish()
+//                }
+//                override fun onError(errorMessage: String) {
+//                    Toast.makeText(this@MainActivityGame, errorMessage, Toast.LENGTH_SHORT).show()
+//                }
+//            })
+//        }
 
         GameRepository.gameStarted.observe(this) { event ->
             Toast.makeText(this, "Игра началась!", Toast.LENGTH_SHORT).show()
@@ -114,21 +157,34 @@ class MainActivityGame : AppCompatActivity() {
         }
 
         val dimBackgroundMain: View = findViewById(R.id.dimBackgroundMain)
-        val situationCardModal: LinearLayout = findViewById(R.id.situationCardModal) //модальное окно для карты ситуации
+        val situationCardModal: FrameLayout = findViewById(R.id.situationCardModal) //модальное окно для карты ситуации
+        val roleAndMoodCardModal: ConstraintLayout = findViewById(R.id.roleAndMoodCardModal) //модальное окно для карт роли и настроения
         val situationCardButton: ImageButton = findViewById(R.id.situationCardButton)
+        val roleAndMoodCardButton: ImageButton = findViewById(R.id.roleAndMoodCardButton)
         val changesituationButton: ImageButton = findViewById(R.id.changeSituationButton)
+        val changeRoleButton: ImageButton = findViewById(R.id.changeRoleButton)
+        val changeMoodButton: ImageButton = findViewById(R.id.changeMoodButton)
+        roleTextView = findViewById(R.id.roleTextModal)
+        moodTextView = findViewById(R.id.moodTextModal)
 
 
         dimBackgroundMain.setOnClickListener {
             dimBackgroundMain.visibility = View.GONE
             situationCardModal.visibility = View.GONE
             changesituationButton.visibility = View.GONE
+            roleAndMoodCardModal.visibility = View.GONE
         }
 
         situationCardButton.setOnClickListener {
             dimBackgroundMain.visibility = View.VISIBLE
             situationCardModal.visibility = View.VISIBLE
-            changesituationButton.visibility = View.VISIBLE
+            if (isCreator) changesituationButton.visibility = View.VISIBLE
+        }
+
+        roleAndMoodCardButton.setOnClickListener {
+            dimBackgroundMain.visibility = View.VISIBLE
+            roleAndMoodCardModal.visibility = View.VISIBLE
+//            changesituationButton.visibility = View.VISIBLE
         }
 
         changesituationButton.setOnClickListener { view ->
@@ -145,16 +201,22 @@ class MainActivityGame : AppCompatActivity() {
                     }
 
                     override fun onError(errorMessage: String) {
-                        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+//                        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
                     }
                 })
         }
 
+        changeRoleButton.setOnClickListener { view ->
+            onRotateButtonClick(view)
+            changeRoleCard()
+        }
+
+        changeMoodButton.setOnClickListener { view ->
+            onRotateButtonClick(view)
+            changeMoodCard()
+        }
 
         setupSituationCardObserver()
-//        observePlayersAfterLogin()
-//        setupPlayersRecycler()
-//        setupPlayersObserver()
     }
 
     private fun setupSituationCardObserver() {
@@ -210,9 +272,7 @@ class MainActivityGame : AppCompatActivity() {
     """.trimIndent()
         )
 
-        val situationCard: TextView = findViewById(R.id.situationText)
         val situationCardModal: TextView = findViewById(R.id.situationTextModal)
-        situationCard.text = card.content
         situationCardModal.text = card.content
     }
 
@@ -278,6 +338,23 @@ class MainActivityGame : AppCompatActivity() {
         })
     }
 
+    private fun getCardsPerPlayer() {
+        val serverManager = ServerManager(this)
+        serverManager.getCreatorLogin(this, roomId, object : ServerManager.HttpCallback {
+            override fun onSuccess(successMessage: String) {
+                val prefs = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+                cardsPerPlayer  = prefs.getInt("cards-per-player", 6)
+                Toast.makeText(this@MainActivityGame, "вы создатель: $myLogin", Toast.LENGTH_SHORT).show()
+                // теперь, когда myLogin известен, подписываемся на список:
+                observePlayersAfterLogin()
+            }
+            override fun onError(errorMessage: String) {
+                Toast.makeText(this@MainActivityGame, errorMessage, Toast.LENGTH_SHORT).show()
+                Log.e("ОШИБКА", "Текст ошибки: $errorMessage")
+            }
+        })
+    }
+
     private fun observePlayersAfterLogin() {
         GameRepository.players.observe(this) { players ->
             val others = players.filter { it.login != myLogin }
@@ -287,8 +364,45 @@ class MainActivityGame : AppCompatActivity() {
             val myCards = me?.actionCards ?: emptyList()
             actionsAdapter.submitList(myCards)
 
-            if (others.isNotEmpty()) {
-                Toast.makeText(this, "Игрок ${others.last().login} присоединился!", Toast.LENGTH_SHORT).show()
+            // роль:
+            if (lastRole == null) {
+                // при первом заходе просто устанавливаем текст без анимации
+                if (me != null) {
+                    roleTextView.text = me.roleCard.content
+                }
+            } else if (me != null) {
+                if (me.roleCard.content != lastRole) {
+                    // если роль изменилась — показываем анимацию
+                    animateTextChange(roleTextView, me.roleCard.content)
+                }
+            }
+            if (me != null) {
+                lastRole = me.roleCard.content
+            }
+
+            // настроение:
+            if (lastMood == null) {
+                if (me != null) {
+                    moodTextView.text = me.moodCard.content
+                }
+            } else if (me != null) {
+                if (me.moodCard.content != lastMood) {
+                    animateTextChange(moodTextView, me.moodCard.content)
+                }
+            }
+            if (me != null) {
+                lastMood = me.moodCard.content
+            }
+
+            if (!firstPlayerLoad) {
+                if (others.size > lastOthersCount) {
+                    val newPlayer = others.last()
+                    Toast.makeText(
+                        this,
+                        "Игрок ${newPlayer.login} присоединился!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
 
             val currentActions = me?.actionCards
@@ -296,10 +410,14 @@ class MainActivityGame : AppCompatActivity() {
                 actionsAdapter.submitList(currentActions)
             }
 
-            val desiredCount = 6//prefs.getInt("cards-per-player", 6)
+            val desiredCount = cardsPerPlayer
             if (currentActions != null) {
                 if (currentActions.size < desiredCount && !isDeckOver()) {
                     drawNewCardForMe()
+                }
+                else if (isDeckOver()){
+                    val deckFrame: FrameLayout = findViewById(R.id.deckFrame)
+                    deckFrame.visibility = View.GONE
                 }
             }
         }
@@ -326,7 +444,7 @@ class MainActivityGame : AppCompatActivity() {
                 Toast.makeText(this@MainActivityGame, "Карта сброшена!", Toast.LENGTH_SHORT).show()
             }
             override fun onError(errorMessage: String) {
-                Toast.makeText(this@MainActivityGame, errorMessage, Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this@MainActivityGame, errorMessage, Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -363,6 +481,58 @@ class MainActivityGame : AppCompatActivity() {
         rvTable.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         rvTable.adapter = tableAdapter
         rvTable.addItemDecoration(SpacingItemDecoration(16))
+    }
+    private fun changeRoleCard(){
+        serverManager.changeRoleCard(roomId, myId, object : ServerManager.ChangeRoleCallback {
+            override fun onSuccess(updatedPlayer: String?) {
+                Toast.makeText(this@MainActivityGame, "Роль сменена на: $updatedPlayer", Toast.LENGTH_SHORT).show()
+            }
+            override fun onError(errorMessage: String) {
+                Toast.makeText(this@MainActivityGame, errorMessage, Toast.LENGTH_SHORT).show()
+                Log.e("ОШИБКА СМЕНЫ КАРТЫ РОЛИ", "Текст: $errorMessage")
+            }
+        })
+    }
+
+    private fun changeMoodCard(){
+        serverManager.changeMoodCard(roomId, myId, object : ServerManager.ChangeMoodCallback {
+            override fun onSuccess(updatedPlayer: String?) {
+                Toast.makeText(this@MainActivityGame, "Настроение сменено на: $updatedPlayer", Toast.LENGTH_SHORT).show()
+            }
+            override fun onError(errorMessage: String) {
+                Toast.makeText(this@MainActivityGame, errorMessage, Toast.LENGTH_SHORT).show()
+                Log.e("ОШИБКА СМЕНЫ КАРТЫ НАСТРОЕНИЯ", "Текст: $errorMessage")
+            }
+        })
+    }
+
+    private fun animateTextChange(textView: TextView, newText: String) {
+        textView.animate()
+            .alpha(0f)
+            .setDuration(200)
+            .withEndAction {
+                textView.text = newText
+                textView.animate()
+                    .alpha(1f)
+                    .setDuration(200)
+                    .start()
+            }
+            .start()
+    }
+
+    private fun stopGame(){
+        if(!isCreator) return
+        else{
+            val stopGameButton: ImageButton = findViewById(R.id.closeButton)
+            stopGameButton.setOnClickListener {
+                WebSocketManager.stopGame(roomId,
+                    onSuccess = { Toast.makeText(this, "Игра остановлена", Toast.LENGTH_SHORT).show() },
+                    onError = { err -> Toast.makeText(this, err, Toast.LENGTH_SHORT).show() }
+                )
+            }
+            finish()
+        }
+
     }
 }
 
